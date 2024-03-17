@@ -1,0 +1,31 @@
+<div class="admin-container__header">
+    <div class="admin-header__brand">
+        <img ngSrc="assets/images/brand-logo-without-background.png" alt="Brand Logo"
+             class="admin-header__brand-logo" [width]="64" [height]="64" priority>
+        <h1 class="admin-header__brand-title">Router Hub Admin</h1>
+    </div>
+    <div class="admin-header__status">
+        <div class="online-indicator">
+            <div class="indicator-circle" [ngClass]="{ 'online': isOnline(), 'offline': !isOnline() }"></div>
+            <span class="indicator-label">
+                {{ isOnline() ? 'Connected' : 'Disconnected' }}
+            </span>
+        </div>
+        @if (networkName()) {
+            <span class="simple-status">|</span>
+        }
+        <span class="simple-status">{{ networkName() }}</span>
+        @if (networkName()) {
+            <span class="simple-status">|</span>
+        }
+        <span class="simple-status">{{ networkType() }}</span>
+        @if (signalStrength()) {
+            <i-lucide [name]="signalStrength()!" class="signal-strength-bar"/>
+        }
+        @if (isLoggin) {
+            <button class="logout-btn" icon="tuiIconLogOut" tuiIconButton type="button" size="s" appearance="flat"
+                    (click)="logOut()">
+            </button>
+        }
+    </div>
+</div>

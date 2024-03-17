@@ -1,0 +1,7 @@
+:host {
+  display: block;
+}
+
+.admin-container {
+  @apply flex flex-col w-dvw h-dvh justify-start items-center bg-slate-700;
+}

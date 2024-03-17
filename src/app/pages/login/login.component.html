@@ -1,0 +1,21 @@
+<div class="login-wrapper">
+    <rha-header/>
+    <h1 class="text-3xl font-bold tracking-wider text-white mt-32">
+        Login password
+    </h1>
+    <form class="b-form tui-row tui-row_sme w-[350px] gap-y-5" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <div class="tui-form__row w-full">
+            <tui-input-password formControlName="password" tuiHintAppearance="onDark" tuiHintContent
+                                tuiTextfieldSize="m" tuiHintDirection="right">
+                Type a password
+            </tui-input-password>
+        </div>
+        <button tuiButton type="submit" class="w-full" size="m">
+            Login
+        </button>
+    </form>
+    <button tuiButton type="submit" size="m" appearance="flat"
+            (click)="showForgotonPasswordDialog()">
+        Did you forget your password?
+    </button>
+</div>
