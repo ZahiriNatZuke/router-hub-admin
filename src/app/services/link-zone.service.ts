@@ -50,20 +50,25 @@ export class LinkZoneService {
     return this.#linkZoneRequest(data);
   }
 
-  disconnect() {
+  disconnectInternet() {
     const data = {
       jsonrpc: '2.0',
       method: 'DisConnect',
       id: '3.2'
     };
 
-    return this.#linkZoneRequest(data)
-      .pipe(
-        tap(() => {
-          this.token = null;
-          sessionStorage.removeItem('_tclrequestverificationtoken');
-        })
-      );
+    return this.#linkZoneRequest(data);
+  }
+
+  heartBeat() {
+    const data = {
+      id: '12',
+      jsonrpc: '2.0',
+      method: 'HeartBeat',
+      params: {}
+    };
+
+    return this.#linkZoneRequest(data);
   }
 
   login(pwd: string): Observable<JSONRPCResponse> {
@@ -84,6 +89,11 @@ export class LinkZoneService {
           sessionStorage.setItem('_tclrequestverificationtoken', this.#token!);
         })
       );
+  }
+
+  logout() {
+    this.token = null;
+    sessionStorage.removeItem('_tclrequestverificationtoken');
   }
 
   getSystemStatus() {
@@ -146,7 +156,7 @@ export class LinkZoneService {
       .pipe(
         switchMap((res: any) => {
           if ( res.ConnectionStatus === 2 ) { // if it is connected
-            return this.disconnect().pipe(
+            return this.disconnectInternet().pipe(
               switchMap(() => this.setNetworkSettings(networkMode))
             );
           }
@@ -199,12 +209,13 @@ export class LinkZoneService {
 
   }
 
-  getSmsList(page: number = 0) {
+  getSmsList(page: number = 1) {
     const data = {
       jsonrpc: '2.0',
-      method: 'GetSMSContactList',
+      method: 'GetSMSListByContactNum',
       params: {
-        Page: page
+        Page: page,
+        key: 'inbox'
       },
       id: '12'
     };
