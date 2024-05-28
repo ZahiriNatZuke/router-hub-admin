@@ -1,1 +1,35 @@
-<p>sms-list works!</p>
+<div class="sms-list-container">
+    <div class="sms-list-pagination">
+        <tui-pagination [length]="TotalPageCount()" [index]="currentPage()" (indexChange)="goToPage($event)"/>
+    </div>
+
+    <div class="sms-list-table">
+        <table tuiTable [columns]="columns()">
+            <thead>
+            <tr tuiThGroup>
+                @for (col of columnsSettings(); track col.column) {
+                    <th *tuiHead="col.column" tuiTh>{{ col.header }}</th>
+                }
+            </tr>
+            </thead>
+            <tbody *tuiLet="SMSContactList() | tuiTableSort as sortedData" tuiTbody [data]="sortedData">
+                @for (sms of sortedData; track sms.SMSId) {
+                    <tr tuiTr>
+                        <td *tuiCell="'PhoneNumber'" tuiTd>
+                            {{ sms.PhoneNumber }}
+                        </td>
+                        <td *tuiCell="'SMSId'" tuiTd>
+                            {{ sms.SMSId }}
+                        </td>
+                        <td *tuiCell="'SMSContent'" tuiTd>
+                            {{ sms.SMSContent }}
+                        </td>
+                        <td *tuiCell="'SMSTime'" tuiTd>
+                            {{ sms.SMSTime }}
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
