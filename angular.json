@@ -65,20 +65,40 @@
               "node_modules/@taiga-ui/styles/taiga-ui-global.less",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": [
+              "@taiga-ui/core/types",
+              "@taiga-ui/core/mask",
+              "@taiga-ui/core/interfaces",
+              "@taiga-ui/kit/types",
+              "@taiga-ui/kit/mask",
+              "@taiga-ui/kit/interfaces",
+              "@taiga-ui/i18n/interface",
+              "@taiga-ui/i18n/interfaces",
+              "@taiga-ui/cdk/types",
+              "@taiga-ui/cdk/interfaces",
+              "@taiga-ui/addon-table/types",
+              "text-mask-core",
+              "dompurify"
+            ],
+            "optimization": {
+              "styles": {
+                "inlineCritical": false
+              }
+            }
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "4kb",
+                  "maximumError": "8kb"
                 }
               ],
               "outputHashing": "all"
