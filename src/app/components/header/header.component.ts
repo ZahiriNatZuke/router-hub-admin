@@ -1,13 +1,13 @@
 import { Component, inject, signal } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
 import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
-import { LinkZoneService } from '../../services/link-zone.service';
 import { interval } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NETWORKS_TYPES } from '../../common';
 import { LucideAngularModule, Signal, SignalHigh, SignalLow, SignalMedium, SignalZero } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { Router } from '@angular/router';
+import { BaseComponent } from '../../common/classes';
 
 @Component({
   selector: 'rha-header',
@@ -22,9 +22,8 @@ import { Router } from '@angular/router';
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent {
+export class HeaderComponent extends BaseComponent {
 
-  #linkZone = inject(LinkZoneService);
   #router = inject(Router);
 
   isOnline = signal(false);
@@ -41,16 +40,16 @@ export class HeaderComponent {
   ];
 
   constructor() {
+    super();
     this.#getSystemStatus();
-    interval(10 * 1000)
+    interval(5 * 1000)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.#getSystemStatus());
   }
 
   #getSystemStatus() {
-    this.#linkZone.getSystemStatus().subscribe((respone) => {
+    this.linkZone.getSystemStatus().subscribe((respone) => {
       if ( respone.result ) {
-        console.log(respone);
         this.isOnline.set(respone.result.ConnectionStatus === 2);
         this.networkName.set(respone.result.NetworkName);
         this.networkType.set(NETWORKS_TYPES[ respone.result.NetworkType ]);
@@ -60,13 +59,12 @@ export class HeaderComponent {
   }
 
   get isLoggin() {
-    return this.#linkZone.isLoggin;
+    return this.linkZone.isLoggin;
   }
 
   logOut() {
-    this.#linkZone.disconnect().subscribe(() => {
-      this.#router.navigate([ '/login' ]);
-    });
+    this.linkZone.logout();
+    this.#router.navigate([ '/login' ]);
   }
 
 }
