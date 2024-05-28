@@ -51,19 +51,3 @@
 }
 
 // This goes into global, non-encapsulated styles
-[tuiWrapper][data-appearance='status-icon'] {
-  @apply bg-blue-500 text-white;
-
-  &:hover {
-    @apply bg-blue-700;
-  }
-
-  &:active {
-    @apply bg-blue-600;
-  }
-
-  &:disabled {
-    @apply bg-blue-200;
-  }
-
-}
