@@ -4,8 +4,8 @@ import { TUI_PASSWORD_TEXTS, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiDialogService, TuiHintModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { of } from 'rxjs';
 import { HeaderComponent } from '../../components/header/header.component';
-import { LinkZoneService } from '../../services/link-zone.service';
 import { Router } from '@angular/router';
+import { BaseComponent } from '../../common/classes';
 
 @Component({
   selector: 'rha-login',
@@ -27,12 +27,11 @@ import { Router } from '@angular/router';
     },
   ]
 })
-export class LoginComponent {
+export class LoginComponent extends BaseComponent {
 
   #fb = inject(FormBuilder);
   #router = inject(Router);
   #dialog = inject(TuiDialogService);
-  #linkZone = inject(LinkZoneService);
 
   loginForm = this.#fb.group({
     password: [ '', Validators.required ],
@@ -47,7 +46,7 @@ export class LoginComponent {
 
   onLogin() {
     if ( this.loginForm.valid ) {
-      this.#linkZone.login(this.loginForm.value.password!)
+      this.linkZone.login(this.loginForm.value.password!)
         .subscribe((response) => {
           if ( response.result ) {
             this.#router.navigate([ '/admin', 'home' ]);
