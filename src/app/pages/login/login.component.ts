@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TUI_PASSWORD_TEXTS, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiDialogService, TuiHintModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
@@ -33,6 +33,7 @@ export class LoginComponent extends BaseComponent {
   #router = inject(Router);
   #dialog = inject(TuiDialogService);
 
+  returnUrl = input<string>();
   loginForm = this.#fb.group({
     password: [ '', Validators.required ],
   });
@@ -49,7 +50,9 @@ export class LoginComponent extends BaseComponent {
       this.linkZone.login(this.loginForm.value.password!)
         .subscribe((response) => {
           if ( response.result ) {
-            this.#router.navigate([ '/admin', 'home' ]);
+            this.returnUrl()
+              ? this.#router.navigateByUrl(this.returnUrl()!)
+              : this.#router.navigate([ '/admin', 'home' ]);
           }
         });
     }
