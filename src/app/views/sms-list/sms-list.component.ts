@@ -1,6 +1,6 @@
 import { Component, computed, signal } from '@angular/core';
-import { BaseComponent } from '../../common/classes';
-import { SMSData } from '../../common/types';
+import { BaseComponent } from '@rha/common/classes';
+import { SMSData } from '@rha/common/types';
 import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
 import { TuiLetModule } from '@taiga-ui/cdk';
 import { NgForOf } from '@angular/common';

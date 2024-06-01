@@ -3,9 +3,9 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TUI_PASSWORD_TEXTS, TuiInputPasswordModule } from '@taiga-ui/kit';
 import { TuiButtonModule, TuiDialogService, TuiHintModule, TuiTextfieldControllerModule } from '@taiga-ui/core';
 import { of } from 'rxjs';
-import { HeaderComponent } from '../../components/header/header.component';
+import { HeaderComponent } from '@rha/components';
 import { Router } from '@angular/router';
-import { BaseComponent } from '../../common/classes';
+import { BaseComponent } from '@rha/common/classes';
 
 @Component({
   selector: 'rha-login',
@@ -33,14 +33,14 @@ export class LoginComponent extends BaseComponent {
   #router = inject(Router);
   #dialog = inject(TuiDialogService);
 
-  returnUrl = input<string>();
+  returnUrl = input<string>('');
   loginForm = this.#fb.group({
     password: [ '', Validators.required ],
   });
 
   showForgotonPasswordDialog() {
     this.#dialog.open(
-      '<p class="text-lg font-semibold">First restart your device and then log in using the default password "admin"</p>',
+      '<p class="text-lg font-semibold">First restart your device and then log in using the default password “admin”</p>',
       { size: 's' }
     ).subscribe();
   }
@@ -51,7 +51,7 @@ export class LoginComponent extends BaseComponent {
         .subscribe((response) => {
           if ( response.result ) {
             this.returnUrl()
-              ? this.#router.navigateByUrl(this.returnUrl()!)
+              ? this.#router.navigateByUrl(this.returnUrl())
               : this.#router.navigate([ '/admin', 'home' ]);
           }
         });

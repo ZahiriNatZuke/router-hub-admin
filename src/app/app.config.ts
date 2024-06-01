@@ -6,7 +6,7 @@ import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
-import { errorInterceptor } from './interceptors/error.interceptor';
+import { errorInterceptor } from '@rha/interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [

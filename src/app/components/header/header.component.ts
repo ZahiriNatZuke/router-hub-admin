@@ -3,11 +3,11 @@ import { NgClass, NgOptimizedImage } from '@angular/common';
 import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
 import { interval } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NETWORKS_TYPES } from '../../common';
+import { NETWORKS_TYPES } from '@rha/common';
 import { LucideAngularModule, Signal, SignalHigh, SignalLow, SignalMedium, SignalZero } from 'lucide-angular';
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { Router } from '@angular/router';
-import { BaseComponent } from '../../common/classes';
+import { BaseComponent } from '@rha/common/classes';
 
 @Component({
   selector: 'rha-header',
@@ -48,12 +48,12 @@ export class HeaderComponent extends BaseComponent {
   }
 
   #getSystemStatus() {
-    this.linkZone.getSystemStatus().subscribe((respone) => {
-      if ( respone.result ) {
-        this.isOnline.set(respone.result.ConnectionStatus === 2);
-        this.networkName.set(respone.result.NetworkName);
-        this.networkType.set(NETWORKS_TYPES[ respone.result.NetworkType ]);
-        this.signalStrength.set(this.#signalIcons[ respone.result.SignalStrength - 1 ]);
+    this.linkZone.getSystemStatus().subscribe((response) => {
+      if ( response.result ) {
+        this.isOnline.set(response.result.ConnectionStatus === 2);
+        this.networkName.set(response.result.NetworkName);
+        this.networkType.set(NETWORKS_TYPES[ response.result.NetworkType ]);
+        this.signalStrength.set(this.#signalIcons[ response.result.SignalStrength - 1 ]);
       }
     });
   }

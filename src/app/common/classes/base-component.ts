@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { LinkZoneService } from '../../services/link-zone.service';
+import { LinkZoneService } from '@rha/services';
 
 @Component({ standalone: true, template: '' })
 export class BaseComponent {

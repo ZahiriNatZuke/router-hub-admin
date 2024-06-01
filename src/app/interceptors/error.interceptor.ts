@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
 import { TuiAlertService } from '@taiga-ui/core';
-import { LinkZoneService } from '../services/link-zone.service';
+import { LinkZoneService } from '@rha/services';
 
 export const errorInterceptor: HttpInterceptorFn = (req, next) => {
   const router = inject(Router);

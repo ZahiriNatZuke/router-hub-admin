@@ -2,7 +2,8 @@ import { TuiButtonModule, TuiHintModule, TuiModeModule, TuiRootModule } from '@t
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
-import { LinkZoneService } from './services/link-zone.service';
+import { LinkZoneService } from '@rha/services';
+import { RequestVerificationToken } from '@rha/common';
 
 @Component({
   selector: 'rha-root',
@@ -24,8 +25,8 @@ export class AppComponent {
   #linkZone = inject(LinkZoneService);
 
   constructor() {
-    if ( sessionStorage.getItem('_tclrequestverificationtoken') ) {
-      this.#linkZone.token = sessionStorage.getItem('_tclrequestverificationtoken')!;
+    if ( sessionStorage.getItem(RequestVerificationToken) ) {
+      this.#linkZone.token = sessionStorage.getItem(RequestVerificationToken)!;
     }
   }
 

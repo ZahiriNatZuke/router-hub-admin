@@ -1,6 +1,6 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { LinkZoneService } from '../services/link-zone.service';
+import { LinkZoneService } from '@rha/services';
 
 export const loginTokenGuard: CanActivateFn = () => {
   if ( inject(LinkZoneService).isLoggin ) {

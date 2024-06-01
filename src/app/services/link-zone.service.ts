@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { delay, Observable, switchMap, tap } from 'rxjs';
 import { JSONRPCResponse } from 'json-rpc-2.0/dist/models';
+import { RequestVerificationToken } from '@rha/common';
 
 @Injectable({ providedIn: 'root' })
 export class LinkZoneService {
@@ -86,14 +87,14 @@ export class LinkZoneService {
       .pipe(
         tap((res) => {
           this.token = this.#encrypt(`${ res.result.token }`);
-          sessionStorage.setItem('_tclrequestverificationtoken', this.#token!);
+          sessionStorage.setItem(RequestVerificationToken, this.#token!);
         })
       );
   }
 
   logout() {
     this.token = null;
-    sessionStorage.removeItem('_tclrequestverificationtoken');
+    sessionStorage.removeItem(RequestVerificationToken);
   }
 
   getSystemStatus() {

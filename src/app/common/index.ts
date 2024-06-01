@@ -30,3 +30,4 @@ export const UssdCodes: { value: string, label: string }[] = [
   },
 ];
 
+export const RequestVerificationToken = '_tclrequestverificationtoken';
