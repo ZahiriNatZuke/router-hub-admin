@@ -27,13 +27,12 @@ export class AdminComponent extends BaseComponent {
 
   constructor() {
     super();
-    this.linkZone.connect().subscribe();
     interval(5 * 1000)
       .pipe(takeUntilDestroyed())
       .subscribe(() => {
         this.linkZone.heartBeat()
           .subscribe((res) => {
-            console.log('[heartBeat]', res);
+            console.log('[heartBeat]', res?.result ? '✅' : '❌');
           });
       });
   }
