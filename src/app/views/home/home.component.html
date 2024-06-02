@@ -1,1 +1,36 @@
-<p>home component!</p>
+<div class="router-info-container">
+    <div class="router-info-row">
+        <span class="router-info-label">SIM Status:</span>
+        <span class="router-info-value">{{ simStatusLabel() }}</span>
+    </div>
+    <div class="router-info-row">
+        <span class="router-info-label">Connection Status:</span>
+        <div class="connection-action">
+            <span class="router-info-value">{{ internetStatusLabel() }}</span>
+            <button tuiButton class="connection-action-btn" appearance="primary" size="s"
+                    (click)="toggleConnection()" [showLoader]="restarting()">
+                {{ buttonLabel() }}
+            </button>
+        </div>
+    </div>
+    <div class="router-info-row">
+        <span class="router-info-label">Network Name:</span>
+        <span class="router-info-value">{{ systemStatus()?.NetworkName }}</span>
+    </div>
+    <div class="router-info-row">
+        <span class="router-info-label">Network Type:</span>
+        <span class="router-info-value">{{ networkType() }}</span>
+    </div>
+    <div class="router-info-row">
+        <span class="router-info-label">Profile Name:</span>
+        <span class="router-info-value">{{ currentProfile()?.ProfileName }}</span>
+    </div>
+    <div class="router-info-row">
+        <span class="router-info-label">IPv4 Address:</span>
+        <span class="router-info-value">{{ connectionState()?.IPv4Adrress }}</span>
+    </div>
+    <div class="router-info-row">
+        <span class="router-info-label">IPv6 Address:</span>
+        <span class="router-info-value">{{ connectionState()?.IPv6Adrress }}</span>
+    </div>
+</div>

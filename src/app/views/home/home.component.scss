@@ -1,0 +1,26 @@
+.router-info-container {
+  @apply grid grid-cols-2 w-full gap-6 mt-5;
+
+  .router-info-row {
+    @apply grid-cols-subgrid col-span-2 grid gap-x-2 text-white;
+
+    .router-info-label {
+      @apply text-lg font-bold justify-self-end;
+    }
+
+    .router-info-value {
+      @apply text-lg;
+    }
+
+    .connection-action {
+      @apply w-full flex justify-start relative;
+
+      .connection-action-btn {
+        @apply -top-1 ml-6;
+      }
+
+    }
+
+  }
+
+}
