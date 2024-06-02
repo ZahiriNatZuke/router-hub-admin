@@ -70,7 +70,7 @@ export class HomeComponent extends BaseComponent {
       this.connectionState.set(res.connectionState.result);
       this.simStatus.set(res.simStatus.result);
       this.currentProfile.set(res.currentProfile.result);
-      this.restarting.set(![ 1, 2 ].includes(this.connectionState()!.ConnectionStatus));
+      this.restarting.set(this.connectionState()?.ConnectionStatus === 3);
     });
   }
 
@@ -79,6 +79,6 @@ export class HomeComponent extends BaseComponent {
       this.connectionState()?.ConnectionStatus === 2
         ? this.linkZone.disconnectInternet()
         : this.linkZone.connectInternet()
-    ).subscribe();
+    ).subscribe(() => this.restarting.set(true));
   }
 }
