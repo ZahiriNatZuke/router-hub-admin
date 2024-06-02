@@ -8,6 +8,7 @@ import { LucideAngularModule, Signal, SignalHigh, SignalLow, SignalMedium, Signa
 import { LucideIconData } from 'lucide-angular/icons/types';
 import { Router } from '@angular/router';
 import { BaseComponent } from '@rha/common/classes';
+import { SystemStatus } from '@rha/common/types';
 
 @Component({
   selector: 'rha-header',
@@ -50,10 +51,11 @@ export class HeaderComponent extends BaseComponent {
   #getSystemStatus() {
     this.linkZone.getSystemStatus().subscribe((response) => {
       if ( response.result ) {
-        this.isOnline.set(response.result.ConnectionStatus === 2);
-        this.networkName.set(response.result.NetworkName);
-        this.networkType.set(NETWORKS_TYPES[ response.result.NetworkType ]);
-        this.signalStrength.set(this.#signalIcons[ response.result.SignalStrength - 1 ]);
+        const result: SystemStatus = response.result;
+        this.isOnline.set(result.ConnectionStatus === 2);
+        this.networkName.set(result.NetworkName);
+        this.networkType.set(NETWORKS_TYPES[ result.NetworkType ]);
+        this.signalStrength.set(this.#signalIcons[ result.SignalStrength - 1 ]);
       }
     });
   }
