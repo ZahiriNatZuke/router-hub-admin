@@ -43,7 +43,9 @@ export class HomeComponent extends BaseComponent {
     () => this.simStatus()?.PinState === 2 ? 'Ready' : 'Not Ready'
   );
   restarting = signal<boolean>(false);
-  networkType = computed(() => NETWORKS_TYPES[ this.systemStatus()!.NetworkType ]);
+  networkType = computed(
+    () => this.systemStatus()?.NetworkType ? NETWORKS_TYPES[ this.systemStatus()!.NetworkType ] : ''
+  );
 
   constructor() {
     super();
