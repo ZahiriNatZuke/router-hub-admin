@@ -41,7 +41,7 @@ export class LinkZoneService {
       payload);
   }
 
-  connect() {
+  connectInternet() {
     const data = {
       jsonrpc: '2.0',
       method: 'Connect',
@@ -107,6 +107,17 @@ export class LinkZoneService {
     return this.#linkZoneRequest(data);
   }
 
+  getSimStatus() {
+    const data = {
+      id: '12',
+      jsonrpc: '2.0',
+      method: 'GetSimStatus',
+      params: {}
+    };
+
+    return this.#linkZoneRequest(data);
+  }
+
   getNetworkInfo() {
     const data = {
       jsonrpc: '2.0',
@@ -123,6 +134,17 @@ export class LinkZoneService {
       jsonrpc: '2.0',
       method: 'GetNetworkSettings',
       id: '12'
+    };
+
+    return this.#linkZoneRequest(data);
+  }
+
+  getCurrentProfile() {
+    const data = {
+      id: '12',
+      jsonrpc: '2.0',
+      method: 'getCurrentProfile',
+      params: {}
     };
 
     return this.#linkZoneRequest(data);
