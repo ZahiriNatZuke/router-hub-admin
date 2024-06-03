@@ -1,4 +1,4 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { delay, Observable, switchMap, tap } from 'rxjs';
 import { JSONRPCResponse } from 'json-rpc-2.0/dist/models';
@@ -8,7 +8,7 @@ import { RequestVerificationToken } from '@rha/common';
 export class LinkZoneService {
 
   #http = inject(HttpClient);
-  #token: string | null = null;
+  #token = signal<string>('');
   readonly #proxyURL = 'http://localhost:3000/proxy';
 
   get LinkZoneUrl() {
@@ -16,11 +16,11 @@ export class LinkZoneService {
   }
 
   get isLoggin() {
-    return !!this.#token;
+    return !!this.#token();
   }
 
-  set token(token: string | null) {
-    this.#token = token;
+  set token(token: string) {
+    this.#token.set(token);
   }
 
   #encrypt(value: string) {
@@ -37,7 +37,7 @@ export class LinkZoneService {
 
   #linkZoneRequest(payload: any): Observable<JSONRPCResponse> {
     return this.#http.post<JSONRPCResponse>(
-      this.#token ? `${ this.LinkZoneUrl }?token=${ this.#token }` : this.LinkZoneUrl,
+      this.#token() ? `${ this.LinkZoneUrl }?token=${ this.#token() }` : this.LinkZoneUrl,
       payload);
   }
 
@@ -87,13 +87,13 @@ export class LinkZoneService {
       .pipe(
         tap((res) => {
           this.token = this.#encrypt(`${ res.result.token }`);
-          sessionStorage.setItem(RequestVerificationToken, this.#token!);
+          sessionStorage.setItem(RequestVerificationToken, this.#token());
         })
       );
   }
 
   logout() {
-    this.token = null;
+    this.token = '';
     sessionStorage.removeItem(RequestVerificationToken);
   }
 
@@ -189,7 +189,7 @@ export class LinkZoneService {
 
   }
 
-  sendUssd(ussdCode: string, ussdType: number) {
+  sendUssd(ussdCode: string, ussdType: number = 1) {
     const data = {
       jsonrpc: '2.0',
       method: 'SendUSSD',
@@ -223,7 +223,7 @@ export class LinkZoneService {
     return this.#linkZoneRequest(data);
   }
 
-  sendUssdCode(ussdCode: string, ussdType: number) {
+  sendUssdCode(ussdCode: string, ussdType: number = 1) {
     return this.sendUssd(ussdCode, ussdType)
       .pipe(
         delay(5000),
