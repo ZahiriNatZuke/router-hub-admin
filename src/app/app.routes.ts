@@ -27,6 +27,10 @@ export const routes: Routes = [
       {
         path: 'sms-list',
         loadComponent: () => import('./views/sms-list').then(c => c.SmsListComponent)
+      },
+      {
+        path: 'ussd-codes',
+        loadComponent: () => import('./views/ussd-codes').then(c => c.UssdCodesComponent)
       }
     ],
     canActivate: [ loginTokenGuard ]

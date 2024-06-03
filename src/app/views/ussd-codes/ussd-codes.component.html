@@ -1,0 +1,10 @@
+<div class="grid grid-cols-3 w-full gap-3.5">
+    @for (ussdCode of ussdCodes(); track ussdCode.value) {
+        <div class="w-full rounded-lg p-3 cursor-pointer flex flex-col justify-center items-center aspect-square bg-indigo-600 hover:bg-indigo-800 transition-colors"
+             role="button" (click)="showConfirmationUssdCode(ussdCode)">
+            <span class="text-white font-semibold text-center text-base gap-y-1.5">{{ ussdCode.name }}</span>
+            <span class="text-white text-center">{{ ussdCode.bonus }}</span>
+            <span class="text-white text-center">{{ ussdCode.price | currency }}</span>
+        </div>
+    }
+</div>
