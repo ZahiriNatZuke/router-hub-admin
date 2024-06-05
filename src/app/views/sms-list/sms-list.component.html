@@ -1,35 +1,37 @@
 <div class="sms-list-container">
-    <div class="sms-list-pagination">
-        <tui-pagination [length]="TotalPageCount()" [index]="currentPage()" (indexChange)="goToPage($event)"/>
-    </div>
-
     <div class="sms-list-table">
-        <table tuiTable [columns]="columns()">
-            <thead>
-            <tr tuiThGroup>
-                @for (col of columnsSettings(); track col.column) {
-                    <th *tuiHead="col.column" tuiTh>{{ col.header }}</th>
-                }
-            </tr>
-            </thead>
-            <tbody *tuiLet="SMSContactList() | tuiTableSort as sortedData" tuiTbody [data]="sortedData">
-                @for (sms of sortedData; track sms.SMSId) {
-                    <tr tuiTr>
-                        <td *tuiCell="'PhoneNumber'" tuiTd>
-                            {{ sms.PhoneNumber }}
-                        </td>
-                        <td *tuiCell="'SMSId'" tuiTd>
-                            {{ sms.SMSId }}
-                        </td>
-                        <td *tuiCell="'SMSContent'" tuiTd>
-                            {{ sms.SMSContent }}
-                        </td>
-                        <td *tuiCell="'SMSTime'" tuiTd>
-                            {{ sms.SMSTime }}
-                        </td>
-                    </tr>
-                }
-            </tbody>
+        <table mat-table [dataSource]="SMSContactList()" matSort matSortDisableClear
+               matSortActive="SMSTime" matSortDirection="desc">
+
+            <!-- PhoneNumber Column -->
+            <ng-container matColumnDef="PhoneNumber">
+                <th mat-header-cell *matHeaderCellDef>
+                    <b>Contact</b>
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.PhoneNumber[0] }}</td>
+            </ng-container>
+
+            <!-- SMSContent Column -->
+            <ng-container matColumnDef="SMSContent">
+                <th mat-header-cell *matHeaderCellDef>
+                    <b>Message</b>
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.SMSContent }}</td>
+            </ng-container>
+
+            <!-- SMSTime Column -->
+            <ng-container matColumnDef="SMSTime">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                    <b>Date/Time</b>
+                </th>
+                <td mat-cell *matCellDef="let row">{{ row.SMSTime }}</td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="Columns(); sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: Columns();"></tr>
         </table>
+    </div>
+    <div class="sms-list-pagination">
+        <mat-paginator [length]="Length()" [pageSize]="10" [pageIndex]="Page()" (page)="goToPage($event)"/>
     </div>
 </div>

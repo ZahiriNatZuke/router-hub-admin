@@ -45,42 +45,19 @@
             "outputPath": "dist/router-hub-admin",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js"
-            ],
+            "polyfills": [],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
-              "src/assets",
-              {
-                "glob": "**/*",
-                "input": "node_modules/@taiga-ui/icons/src",
-                "output": "assets/taiga-ui/icons"
-              }
+              "src/assets"
             ],
             "styles": [
-              "node_modules/@taiga-ui/core/styles/taiga-ui-theme.less",
-              "node_modules/@taiga-ui/core/styles/taiga-ui-fonts.less",
-              "node_modules/@taiga-ui/styles/taiga-ui-global.less",
+              "@angular/material/prebuilt-themes/azure-blue.css",
               "src/styles.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": [
-              "@taiga-ui/core/types",
-              "@taiga-ui/core/mask",
-              "@taiga-ui/core/interfaces",
-              "@taiga-ui/kit/types",
-              "@taiga-ui/kit/mask",
-              "@taiga-ui/kit/interfaces",
-              "@taiga-ui/i18n/interface",
-              "@taiga-ui/i18n/interfaces",
-              "@taiga-ui/cdk/types",
-              "@taiga-ui/cdk/interfaces",
-              "@taiga-ui/addon-table/types",
-              "text-mask-core",
-              "dompurify"
-            ],
+            "allowedCommonJsDependencies": [],
             "optimization": {
               "styles": {
                 "inlineCritical": false

@@ -1,51 +1,57 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { BaseComponent } from '@rha/common/classes';
-import { SMSData } from '@rha/common/types';
-import { TuiTableModule, TuiTablePaginationModule } from '@taiga-ui/addon-table';
-import { TuiLetModule } from '@taiga-ui/cdk';
+import { SMSContact, SMSData } from '@rha/common/types';
 import { NgForOf } from '@angular/common';
-import { TuiPaginationModule } from '@taiga-ui/kit';
-import { TuiScrollbarModule } from '@taiga-ui/core';
+import { MatPaginator, PageEvent } from '@angular/material/paginator';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import {
+  MatCell,
+  MatCellDef,
+  MatColumnDef,
+  MatHeaderCell,
+  MatHeaderCellDef,
+  MatHeaderRow,
+  MatHeaderRowDef,
+  MatRow,
+  MatRowDef,
+  MatTable
+} from '@angular/material/table';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'rha-sms-list',
   standalone: true,
   imports: [
-    TuiTableModule,
-    TuiLetModule,
     NgForOf,
-    TuiTablePaginationModule,
-    TuiPaginationModule,
-    TuiScrollbarModule
+    MatProgressSpinner,
+    MatTable,
+    MatSort,
+    MatColumnDef,
+    MatHeaderCell,
+    MatCell,
+    MatCellDef,
+    MatHeaderCellDef,
+    MatHeaderRow,
+    MatRow,
+    MatRowDef,
+    MatHeaderRowDef,
+    MatPaginator,
+    MatSortHeader,
   ],
   templateUrl: './sms-list.component.html',
   styleUrl: './sms-list.component.scss'
 })
 export class SmsListComponent extends BaseComponent {
 
-  SMSContactList = signal<any[]>([]);
-  Page = signal<number>(1);
-  TotalPageCount = signal<number>(0);
-  columnsSettings = signal<{ column: string, header: string }[]>([
-    {
-      column: 'SMSId',
-      header: 'ID'
-    },
-    {
-      column: 'PhoneNumber',
-      header: 'Contact'
-    },
-    {
-      column: 'SMSContent',
-      header: 'Message'
-    },
-    {
-      column: 'SMSTime',
-      header: 'Date/Time'
-    },
+  SMSContactList = signal<SMSContact[]>([]);
+  Page = signal<number>(0);
+  Columns = signal<string[]>([
+    'PhoneNumber',
+    'SMSContent',
+    'SMSTime',
   ]);
-  columns = computed(() => this.columnsSettings().map(({ column }) => column));
-  currentPage = computed(() => this.Page() - 1);
+  Length = signal(0);
 
   constructor() {
     super();
@@ -53,16 +59,20 @@ export class SmsListComponent extends BaseComponent {
   }
 
   private fetchSmsList(page: number = 1) {
-    this.linkZone.getSmsList(page).subscribe((res) => {
-      const smsData: SMSData = res.result;
+    forkJoin({
+      smsList: this.linkZone.getSmsList(page),
+      smsStorage: this.linkZone.getSMSStorageState()
+    }).subscribe(({ smsList, smsStorage }) => {
+      const smsData: SMSData = smsList.result;
       this.SMSContactList.set(smsData.SMSList);
-      this.Page.set(smsData.Page);
-      this.TotalPageCount.set(smsData.TotalPageCount);
+      this.Page.set(smsData.Page - 1);
+      this.Length.set(smsStorage.result.TUseCount);
     });
   }
 
-  public goToPage($event: number) {
-    this.Page.set($event + 1);
-    this.fetchSmsList($event + 1);
+  public goToPage({ pageIndex }: PageEvent) {
+    this.Page.set(pageIndex);
+    this.fetchSmsList(pageIndex + 1);
   }
+
 }

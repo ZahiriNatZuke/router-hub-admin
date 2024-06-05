@@ -7,7 +7,23 @@ module.exports = {
     theme: {
         extend: {
             colors: {
-                active: '#516dd1'
+                active: '#0050a5',
+                azure: {
+                    DEFAULT: "#002f65",
+                    900: "#003a7a",
+                    850: "#00458f",
+                    800: "#0050a5",
+                    700: "#005cbb",
+                    600: "#0074e9",
+                    500: "#438fff",
+                    400: "#7cabff",
+                    300: "#abc7ff",
+                    250: "#d7e3ff",
+                    200: "#ecf0ff",
+                    150: "#f9f9ff",
+                    100: "#fdfbff",
+                    50: "#ffffff",
+                }
             }
         },
     },

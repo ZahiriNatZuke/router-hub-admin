@@ -2,7 +2,7 @@
   @apply grid grid-cols-2 w-full gap-6 mt-5;
 
   .router-info-row {
-    @apply grid-cols-subgrid col-span-2 grid gap-x-2 text-white;
+    @apply grid-cols-subgrid col-span-2 grid gap-x-2 text-azure-800 dark:text-white;
 
     .router-info-label {
       @apply text-lg font-bold justify-self-end;
@@ -16,7 +16,7 @@
       @apply w-full flex justify-start relative;
 
       .connection-action-btn {
-        @apply -top-1 ml-6;
+        @apply -top-2 ml-6;
       }
 
     }

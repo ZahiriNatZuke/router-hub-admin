@@ -1,0 +1,23 @@
+.ussd-grid {
+  @apply grid grid-cols-3 w-full gap-3.5;
+
+  .ussd-card {
+    @apply w-full rounded-lg p-3 cursor-pointer flex flex-col justify-center items-center aspect-square bg-azure-700
+    hover:bg-azure-800 transition-colors hover:shadow-lg shadow-azure relative;
+
+    .processing-indicator {
+      @apply absolute top-2 right-2 h-3 w-3 bg-azure-250 rounded-full animate-pulse;
+    }
+
+    .ussd-name {
+      @apply text-white font-semibold text-center text-base;
+    }
+
+    .ussd-bonus,
+    .ussd-price {
+      @apply text-white text-center;
+    }
+
+  }
+
+}

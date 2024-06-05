@@ -23,9 +23,7 @@
             <i-lucide [name]="signalStrength()!" class="signal-strength-bar"/>
         }
         @if (isLoggin) {
-            <button class="logout-btn" icon="tuiIconLogOut" tuiIconButton type="button" size="s" appearance="flat"
-                    (click)="logOut()">
-            </button>
+            <button class="logout-btn" (click)="logOut()"></button>
         }
     </div>
 </div>

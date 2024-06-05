@@ -1,4 +1,3 @@
-import { TuiButtonModule, TuiHintModule, TuiModeModule, TuiRootModule } from '@taiga-ui/core';
 import { Component, inject } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { NgOptimizedImage } from '@angular/common';
@@ -10,12 +9,8 @@ import { RequestVerificationToken } from '@rha/common';
   standalone: true,
   imports: [
     RouterOutlet,
-    TuiRootModule,
     NgOptimizedImage,
     RouterLink,
-    TuiButtonModule,
-    TuiHintModule,
-    TuiModeModule
   ],
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.scss' ]

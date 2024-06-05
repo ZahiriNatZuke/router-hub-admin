@@ -5,4 +5,20 @@
 .login-wrapper {
   @apply w-full flex flex-col items-center justify-center gap-y-8 p-5;
 
+  .login-header {
+    @apply text-3xl font-bold tracking-wider text-azure-800 dark:text-white mt-32;
+  }
+
+  .login-form {
+    @apply w-[350px] gap-y-5;
+
+    ::ng-deep {
+      .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__notch {
+        border-left-width: 0;
+        border-right-width: 0;
+      }
+    }
+
+  }
+
 }

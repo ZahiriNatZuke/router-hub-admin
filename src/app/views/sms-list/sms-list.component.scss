@@ -1,48 +1,22 @@
 .sms-list-container {
-  @apply w-full overflow-y-auto relative;
-
-  .sms-list-pagination {
-    @apply sticky top-0;
-  }
+  @apply w-full relative flex flex-col;
 
   .sms-list-table {
-    @apply w-full;
-  }
+    @apply w-full relative overflow-y-auto h-[64.4dvh];
 
-  table {
-    @apply w-full;
-
-    [tuitbody] {
-      @apply bg-transparent;
-    }
-
-    [tuitr] {
-      &:hover {
-        @apply bg-gray-700;
-      }
-    }
-
-    [tuitd],
-    [tuiTh] {
-      @apply bg-transparent text-gray-100 border-t-0 border-l-0 border-r-0 border-b-2 border-gray-500;
-    }
-
-    [tuitd] {
-      @apply py-3;
-    }
-
-    ::ng-deep {
-
-      .t-sort {
-        @apply text-gray-100 px-1.5;
-
-        &:hover {
-          @apply text-white bg-gray-700 rounded;
-        }
-
-      }
+    table {
+      @apply w-full;
     }
 
   }
 
+}
+
+.mat-mdc-paginator,
+.mat-mdc-table {
+  @apply bg-transparent;
+}
+
+.mat-mdc-header-row.mdc-data-table__header-row.cdk-header-row {
+  @apply bg-azure-250/90 dark:bg-slate-800/90 backdrop-blur-lg;
 }

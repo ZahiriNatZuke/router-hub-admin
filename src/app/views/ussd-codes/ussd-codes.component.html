@@ -1,10 +1,16 @@
-<div class="grid grid-cols-3 w-full gap-3.5">
+<div class="ussd-grid">
     @for (ussdCode of ussdCodes(); track ussdCode.value) {
-        <div class="w-full rounded-lg p-3 cursor-pointer flex flex-col justify-center items-center aspect-square bg-indigo-600 hover:bg-indigo-800 transition-colors"
-             role="button" (click)="showConfirmationUssdCode(ussdCode)">
-            <span class="text-white font-semibold text-center text-base gap-y-1.5">{{ ussdCode.name }}</span>
-            <span class="text-white text-center">{{ ussdCode.bonus }}</span>
-            <span class="text-white text-center">{{ ussdCode.price | currency }}</span>
+        <div class="ussd-card" role="button" (click)="showConfirmationUssdCode(ussdCode)" mat-ripple>
+            @if (processingUssdCode() === ussdCode.value) {
+                <div class="processing-indicator"></div>
+            }
+            <span class="ussd-name">{{ ussdCode.name }}</span>
+            @if (ussdCode?.bonus) {
+                <span class="ussd-bonus">{{ ussdCode.bonus }}</span>
+            }
+            @if (ussdCode?.price) {
+                <span class="ussd-price">{{ ussdCode.price | currency }}</span>
+            }
         </div>
     }
 </div>

@@ -3,17 +3,17 @@
 }
 
 .admin-container__header {
-  @apply col-span-3 flex justify-between items-center px-5 py-3 bg-slate-800 rounded-3xl shadow-md;
+  @apply col-span-3 flex justify-between items-center px-5 py-3 bg-azure-400/30 dark:bg-slate-800/30 rounded-3xl shadow-md backdrop-blur-md;
 
   .admin-header__brand {
     @apply flex items-center;
 
     .admin-header__brand-logo {
-      @apply rounded-full bg-white me-3;
+      @apply rounded-full me-3;
     }
 
     .admin-header__brand-title {
-      @apply text-3xl font-bold tracking-wider text-white;
+      @apply text-3xl font-bold tracking-wider text-azure-800 dark:text-white;
     }
   }
 
@@ -24,7 +24,7 @@
       @apply flex flex-row items-baseline space-x-1 justify-start;
 
       .indicator-circle {
-        @apply w-2 h-2 rounded-full mr-1 mb-1;
+        @apply w-2 h-2 rounded-full mr-1 mb-1.5;
 
         &.online {
           @apply bg-green-500;
@@ -37,17 +37,17 @@
       }
 
       .indicator-label {
-        @apply text-white font-semibold tracking-wider text-sm;
+        @apply text-azure-800 dark:text-white font-bold text-sm;
       }
 
     }
 
     .simple-status {
-      @apply text-white font-semibold tracking-wider text-lg;
+      @apply text-azure-800 dark:text-white font-bold text-lg;
     }
 
     .signal-strength-bar {
-      @apply text-white mb-2;
+      @apply text-azure-800 dark:text-white mb-2;
     }
 
     .logout-btn {

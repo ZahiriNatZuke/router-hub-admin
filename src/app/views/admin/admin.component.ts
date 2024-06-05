@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { TuiButtonModule, TuiHintModule, TuiScrollbarModule } from '@taiga-ui/core';
 import { HeaderComponent } from '@rha/components';
 import { interval } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -14,10 +13,7 @@ import { BaseComponent } from '@rha/common/classes';
     NgOptimizedImage,
     RouterLink,
     RouterOutlet,
-    TuiButtonModule,
-    TuiHintModule,
     HeaderComponent,
-    TuiScrollbarModule,
     RouterLinkActive
   ],
   templateUrl: './admin.component.html',

@@ -7,8 +7,8 @@
         <span class="router-info-label">Connection Status:</span>
         <div class="connection-action">
             <span class="router-info-value">{{ internetStatusLabel() }}</span>
-            <button tuiButton class="connection-action-btn" appearance="primary" size="s"
-                    (click)="toggleConnection()" [showLoader]="restarting()">
+            <button mat-flat-button color="{{ buttonLabel() === 'Disconnect' ? 'warn' : 'accent' }}"
+                    class="connection-action-btn" (click)="toggleConnection()" [disabled]="restarting()">
                 {{ buttonLabel() }}
             </button>
         </div>

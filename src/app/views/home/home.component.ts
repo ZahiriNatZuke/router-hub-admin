@@ -1,23 +1,21 @@
 import { Component, computed, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
-import { TuiButtonModule, TuiHintModule, TuiSvgModule } from '@taiga-ui/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { BaseComponent } from '@rha/common/classes';
 import { forkJoin, interval } from 'rxjs';
 import { ConnectionState, NetworkInfo, NetworkSettings, ProfileData, SimStatus, SystemStatus } from '@rha/common/types';
 import { NETWORKS_TYPES } from '@rha/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'rha-home',
   standalone: true,
   imports: [
     NgOptimizedImage,
-    TuiSvgModule,
-    TuiButtonModule,
     RouterLink,
     RouterOutlet,
-    TuiHintModule
+    MatButton
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'

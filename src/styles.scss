@@ -1,8 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+@include mat.core();
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-@import '@taiga-ui/core/styles/taiga-ui-local';
 
 /* arabic */
 @font-face {
@@ -51,3 +54,29 @@
 }
 
 // This goes into global, non-encapsulated styles
+
+:root {
+  --sb-track-color: #d7e3ff;
+  --sb-thumb-color: #002f65;
+  --sb-size: 10px;
+}
+
+*::-webkit-scrollbar {
+  width: var(--sb-size)
+}
+
+*::-webkit-scrollbar-track {
+  background: var(--sb-track-color);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--sb-thumb-color);
+  border-radius: 4px;
+}
+
+@supports not selector(::-webkit-scrollbar) {
+  * {
+    scrollbar-color: var(--sb-thumb-color) var(--sb-track-color);
+  }
+}

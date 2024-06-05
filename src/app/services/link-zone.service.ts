@@ -246,6 +246,17 @@ export class LinkZoneService {
     return this.#linkZoneRequest(data);
   }
 
+  getSMSStorageState() {
+    const data = {
+      id: "12",
+      jsonrpc: "2.0",
+      method: "GetSMSStorageState",
+      params: {}
+    };
+
+    return this.#linkZoneRequest(data);
+  }
+
   getSmsContentList(page: number, contactId: number) {
     const data = {
       jsonrpc: '2.0',

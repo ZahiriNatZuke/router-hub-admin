@@ -1,16 +1,17 @@
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { TUI_SANITIZER, TuiAlertModule, TuiDialogModule, TuiRootModule } from '@taiga-ui/core';
-import { ApplicationConfig, importProvidersFrom } from '@angular/core';
+import { ApplicationConfig, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
-import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
 import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 import { errorInterceptor } from '@rha/interceptors';
+import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAnimations(),
+    provideAnimationsAsync(),
     provideHttpClient(
       withFetch(),
       withInterceptors([ errorInterceptor ])
@@ -19,11 +20,7 @@ export const appConfig: ApplicationConfig = {
       routes,
       withComponentInputBinding()
     ),
-    importProvidersFrom(
-      TuiRootModule,
-      TuiDialogModule,
-      TuiAlertModule
-    ),
-    { provide: TUI_SANITIZER, useClass: NgDompurifySanitizer }
+    provideExperimentalZonelessChangeDetection(),
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }
   ]
 };

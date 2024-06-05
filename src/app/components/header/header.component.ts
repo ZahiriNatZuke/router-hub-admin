@@ -1,6 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
 import { NgClass, NgOptimizedImage } from '@angular/common';
-import { TuiButtonModule, TuiHintModule } from '@taiga-ui/core';
 import { interval } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NETWORKS_TYPES } from '@rha/common';
@@ -15,8 +14,6 @@ import { SystemStatus } from '@rha/common/types';
   standalone: true,
   imports: [
     NgOptimizedImage,
-    TuiButtonModule,
-    TuiHintModule,
     NgClass,
     LucideAngularModule
   ],

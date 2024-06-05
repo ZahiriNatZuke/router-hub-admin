@@ -13,6 +13,10 @@ export const USSD_CODES: UssdCode[] = [
     name: 'Check Balance'
   },
   {
+    value: '*222*266#',
+    name: 'Check Bonus'
+  },
+  {
     value: '*133*5*1#',
     name: 'Combined Plan - Little',
     bonus: '600 MB + 800 MB',
