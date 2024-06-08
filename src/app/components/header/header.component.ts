@@ -40,7 +40,7 @@ export class HeaderComponent extends BaseComponent {
   constructor() {
     super();
     this.#getSystemStatus();
-    interval(5 * 1000)
+    interval(3 * 1000)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.#getSystemStatus());
   }
