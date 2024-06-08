@@ -17,37 +17,41 @@ export const USSD_CODES: UssdCode[] = [
     name: 'Check Bonus'
   },
   {
-    value: '*133*5*1#',
+    value: '*222*328#',
+    name: 'Check Data Mobile'
+  },
+  {
+    value: '*133*5*1*1#',
     name: 'Combined Plan - Little',
     bonus: '600 MB + 800 MB',
     price: 110
   },
   {
-    value: '*133*5*2#',
+    value: '*133*5*2*1#',
     name: 'Combined Plan - Middle',
     bonus: '1.5 GB + 2 GB',
     price: 250
   },
   {
-    value: '*133*5*3#',
+    value: '*133*5*3*1#',
     name: 'Combined Plan - Big',
     bonus: '3.5 GB + 4.5 GB',
     price: 500
   },
   {
-    value: '*133*1*4*1#',
+    value: '*133*1*4*1*1#',
     name: 'Plan LTE - Little',
     bonus: '1GB',
     price: 100
   },
   {
-    value: '*133*1*4*2#',
+    value: '*133*1*4*2*1#',
     name: 'Plan LTE - Middle',
     bonus: '2.5GB',
     price: 200
   },
   {
-    value: '*133*1*4*3#',
+    value: '*133*1*4*3*1#',
     name: 'Plan LTE - Big',
     bonus: '4 GB + 12 GB',
     price: 950
