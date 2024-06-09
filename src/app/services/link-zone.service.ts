@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { computed, inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { delay, Observable, switchMap, tap } from 'rxjs';
 import { JSONRPCResponse } from 'json-rpc-2.0/dist/models';
@@ -9,15 +9,8 @@ export class LinkZoneService {
 
   #http = inject(HttpClient);
   #token = signal<string>('');
-  readonly #proxyURL = 'http://localhost:3000/proxy';
-
-  get LinkZoneUrl() {
-    return this.#proxyURL;
-  }
-
-  get isLoggin() {
-    return !!this.#token();
-  }
+  isLoggin = computed(() => this.#token().trim().length > 0);
+  #proxyURL = signal('http://localhost:3000/proxy').asReadonly();
 
   set token(token: string) {
     this.#token.set(token);
@@ -37,8 +30,9 @@ export class LinkZoneService {
 
   #linkZoneRequest(payload: any): Observable<JSONRPCResponse> {
     return this.#http.post<JSONRPCResponse>(
-      this.#token() ? `${ this.LinkZoneUrl }?token=${ this.#token() }` : this.LinkZoneUrl,
-      payload);
+      this.isLoggin() ? `${ this.#proxyURL() }?token=${ this.#token() }` : this.#proxyURL(),
+      payload
+    );
   }
 
   connectInternet() {
@@ -150,6 +144,14 @@ export class LinkZoneService {
     return this.#linkZoneRequest(data);
   }
 
+  /**
+   0 → Auto.
+   1 → 2G Only.
+   2 → 3G Only.
+   3 → 4G.
+   4 → 4G ??.
+   5 → 3G/4G.
+   **/
   setNetworkSettings(networkMode: number) {
     const data = {
       jsonrpc: '2.0',
@@ -177,11 +179,12 @@ export class LinkZoneService {
   setNetwork(networkMode: number) {
     return this.getConnectionState()
       .pipe(
-        switchMap((res: any) => {
-          if ( res.ConnectionStatus === 2 ) { // if it is connected
-            return this.disconnectInternet().pipe(
-              switchMap(() => this.setNetworkSettings(networkMode))
-            );
+        switchMap((res: JSONRPCResponse) => {
+          if ( res.result.ConnectionStatus === 2 ) { // if it is connected
+            return this.disconnectInternet()
+              .pipe(
+                switchMap(() => this.setNetworkSettings(networkMode))
+              );
           }
           return this.setNetworkSettings(networkMode);
         })
@@ -248,9 +251,9 @@ export class LinkZoneService {
 
   getSMSStorageState() {
     const data = {
-      id: "12",
-      jsonrpc: "2.0",
-      method: "GetSMSStorageState",
+      id: '12',
+      jsonrpc: '2.0',
+      method: 'GetSMSStorageState',
       params: {}
     };
 

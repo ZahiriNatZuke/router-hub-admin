@@ -51,7 +51,39 @@
     }
 
     .logout-btn {
-      @apply mb-1.5;
+      @apply mb-1.5 text-azure-800 dark:text-white;
+    }
+
+    ::ng-deep {
+      --mdc-switch-selected-icon-size: 16px;
+      --mdc-switch-unselected-icon-size: 16px;
+      --mat-switch-with-icon-handle-size: 18px;
+      --mat-switch-selected-with-icon-handle-horizontal-margin: 0 24px;
+      --mat-switch-unselected-with-icon-handle-horizontal-margin: 0 4px;
+
+      --mdc-switch-track-height: 25px;
+      --mdc-switch-track-shape: 9999px;
+      --mdc-switch-track-width: 46px;
+      --mat-switch-track-outline-width: 2px;
+      --mat-switch-selected-track-outline-width: 2px;
+      --mat-switch-disabled-unselected-track-outline-width: 2px;
+
+      --mdc-switch-state-layer-size: 30px;
+
+      --mat-switch-label-text-line-height: 0.25rem;
+      --mat-switch-label-text-size: 0.875rem;
+      --mat-switch-label-text-tracking: 0.016rem;
+      --mat-switch-label-text-weight: 400;
+
+      --mat-switch-unselected-handle-size: 20px;
+      --mat-switch-unselected-handle-horizontal-margin: 0 8px;
+      --mat-switch-unselected-pressed-handle-horizontal-margin: 0 2px;
+
+      --mat-switch-selected-handle-size: 02px;
+      --mat-switch-selected-handle-horizontal-margin: 0 24px;
+      --mat-switch-selected-pressed-handle-horizontal-margin: 0 22px;
+
+      --mat-switch-pressed-handle-size: 20px;
     }
 
   }
