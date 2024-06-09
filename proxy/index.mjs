@@ -22,7 +22,8 @@ app.post('/proxy', async (req, res) => {
     const headers = {
         'Content-Type': 'application/json, text/plain, */*',
         '_tclrequestverificationkey': 'KSDHSDFOGQ5WERYTUIQWERTYUISDFG1HJZXCVCXBN2GDSMNDHKVKFsVBNf',
-        'Referer': 'http://192.168.1.1/index.html'
+        'Referer': 'http://192.168.1.1/index.html',
+        'Connection': 'keep-alive'
     };
     if (req.query.token) {
         headers['_tclrequestverificationtoken'] = req.query.token;
