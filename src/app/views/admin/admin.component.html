@@ -1,15 +1,11 @@
 <div class="admin-wrapper">
     <rha-header class="col-span-3"/>
     <div class="admin-container__sidebar">
-        <a routerLink="/admin/home" class="admin-sidebar__item" routerLinkActive="active">
-            <span>Home</span>
-        </a>
-        <a routerLink="/admin/sms-list" class="admin-sidebar__item" routerLinkActive="active">
-            <span>SMS List</span>
-        </a>
-        <a routerLink="/admin/ussd-codes" class="admin-sidebar__item" routerLinkActive="active">
-            <span>USSD Codes</span>
-        </a>
+        @for (item of sidebar(); track item.label) {
+            <a [routerLink]="item.route" class="admin-sidebar__item" routerLinkActive="active">
+                <span>{{ item.label }}</span>
+            </a>
+        }
     </div>
     <section class="admin-container__content">
         <div class="admin-container__scroll-wrapper">

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { delay, Observable, switchMap, tap } from 'rxjs';
 import { JSONRPCResponse } from 'json-rpc-2.0/dist/models';
 import { RequestVerificationToken } from '@rha/common';
+import { NetworkMode } from '@rha/common/types/enums';
 
 @Injectable({ providedIn: 'root' })
 export class LinkZoneService {
@@ -144,15 +145,7 @@ export class LinkZoneService {
     return this.#linkZoneRequest(data);
   }
 
-  /**
-   0 → Auto.
-   1 → 2G Only.
-   2 → 3G Only.
-   3 → 4G.
-   4 → 4G ??.
-   5 → 3G/4G.
-   **/
-  setNetworkSettings(networkMode: number) {
+  setNetworkSettings(networkMode: NetworkMode) {
     const data = {
       jsonrpc: '2.0',
       method: 'SetNetworkSettings',
@@ -176,7 +169,7 @@ export class LinkZoneService {
     return this.#linkZoneRequest(data);
   }
 
-  setNetwork(networkMode: number) {
+  setNetwork(networkMode: NetworkMode) {
     return this.getConnectionState()
       .pipe(
         switchMap((res: JSONRPCResponse) => {

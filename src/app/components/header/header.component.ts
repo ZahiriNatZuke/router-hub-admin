@@ -20,6 +20,7 @@ import { SystemStatus } from '@rha/common/types';
 import { MatIconButton } from '@angular/material/button';
 import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { NetworkMode } from '@rha/common/types/enums';
+import { ThemeToggleComponent } from '@rha/components';
 
 @Component({
   selector: 'rha-header',
@@ -29,7 +30,8 @@ import { NetworkMode } from '@rha/common/types/enums';
     NgClass,
     LucideAngularModule,
     MatIconButton,
-    MatSlideToggle
+    MatSlideToggle,
+    ThemeToggleComponent
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'

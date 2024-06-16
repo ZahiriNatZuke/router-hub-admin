@@ -10,10 +10,10 @@
     height: calc(100dvh * 0.75);
 
     .admin-sidebar__item {
-      @apply flex items-center justify-start p-3 ps-5 rounded-full cursor-pointer bg-azure-200 transition-colors duration-300 ease-in-out;
+      @apply flex items-center justify-start p-3 ps-5 rounded-full cursor-pointer bg-azure-200 dark:bg-azure-400 transition-colors duration-300 ease-in-out;
 
       &:hover {
-        @apply bg-azure-800;
+        @apply bg-azure-700 dark:bg-azure-800;
 
         span {
           @apply text-white;
@@ -21,7 +21,7 @@
       }
 
       &.active {
-        @apply bg-active;
+        @apply bg-azure-800 dark:bg-azure-900;
 
         span {
           @apply text-white;

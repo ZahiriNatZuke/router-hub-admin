@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
+import { afterNextRender, AfterRenderPhase, Component, inject, PLATFORM_ID } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { NgOptimizedImage } from '@angular/common';
-import { LinkZoneService } from '@rha/services';
+import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { RequestVerificationToken } from '@rha/common';
+import { BaseComponent } from '@rha/common/classes';
+import { ThemeService } from '@rha/services';
 
 @Component({
   selector: 'rha-root',
@@ -15,14 +16,21 @@ import { RequestVerificationToken } from '@rha/common';
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.scss' ]
 })
-export class AppComponent {
+export class AppComponent extends BaseComponent {
 
-  #linkZone = inject(LinkZoneService);
+  #platform = inject(PLATFORM_ID);
+  #themeService = inject(ThemeService);
 
   constructor() {
-    if ( sessionStorage.getItem(RequestVerificationToken) ) {
-      this.#linkZone.token = sessionStorage.getItem(RequestVerificationToken)!;
-    }
+    super();
+    if ( sessionStorage.getItem(RequestVerificationToken) )
+      this.linkZone.token = sessionStorage.getItem(RequestVerificationToken)!;
+
+    if ( isPlatformBrowser(this.#platform) )
+      afterNextRender(
+        () => this.#themeService.getColorPreference(),
+        { phase: AfterRenderPhase.MixedReadWrite }
+      );
   }
 
 }

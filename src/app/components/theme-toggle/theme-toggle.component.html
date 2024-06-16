@@ -1,0 +1,4 @@
+<button class="theme-toggle-wrapper" [ngClass]="{ 'theme-dark toggled' : isDarkMode() }"
+        (click)="onChange()" [attr.aria-label]="theme()">
+  <div class="theme-toggle"><span></span></div>
+</button>

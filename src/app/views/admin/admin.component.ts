@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { HeaderComponent } from '@rha/components';
@@ -20,6 +20,12 @@ import { BaseComponent } from '@rha/common/classes';
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent extends BaseComponent {
+
+  sidebar = signal<{ label: string, route: string }[]>([
+    { label: 'Home', route: '/admin/home' },
+    { label: 'SMS List', route: '/admin/sms-list' },
+    { label: 'USSD Codes', route: '/admin/ussd-codes' }
+  ]);
 
   constructor() {
     super();
