@@ -5,6 +5,7 @@ import { HeaderComponent } from '@rha/components';
 import { interval } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BaseComponent } from '@rha/common/classes';
+import { MatRipple } from '@angular/material/core';
 
 @Component({
   selector: 'rha-admin',
@@ -14,7 +15,8 @@ import { BaseComponent } from '@rha/common/classes';
     RouterLink,
     RouterOutlet,
     HeaderComponent,
-    RouterLinkActive
+    RouterLinkActive,
+    MatRipple
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
