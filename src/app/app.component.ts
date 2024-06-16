@@ -4,6 +4,7 @@ import { isPlatformBrowser, NgOptimizedImage } from '@angular/common';
 import { RequestVerificationToken } from '@rha/common';
 import { BaseComponent } from '@rha/common/classes';
 import { ThemeService } from '@rha/services';
+import { BgEffectComponent } from '@rha/components';
 
 @Component({
   selector: 'rha-root',
@@ -12,6 +13,7 @@ import { ThemeService } from '@rha/services';
     RouterOutlet,
     NgOptimizedImage,
     RouterLink,
+    BgEffectComponent,
   ],
   templateUrl: './app.component.html',
   styleUrls: [ './app.component.scss' ]
