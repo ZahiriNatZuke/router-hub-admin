@@ -1,14 +1,12 @@
 <div class="login-wrapper">
     <rha-header/>
-    <h1 class="login-header">
-        Login password
-    </h1>
+    <h1 class="login-header">Login password</h1>
     <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
         <mat-form-field class="w-full">
             <mat-label>Enter your password</mat-label>
-            <input matInput formControlName="password" [type]="hide() ? 'password' : 'text'">
-            <button mat-icon-button matSuffix (click)="clickEvent($event)" class="mr-2">
-                <i-lucide [name]="hide() ? eyeOff() : eye()"/>
+            <input matInput formControlName="password" [type]="inputType()" autocomplete="current-password">
+            <button mat-icon-button matSuffix (click)="clickEvent($event)" class="mr-2" type="button">
+                <i-lucide [name]="suffixIcon()"/>
             </button>
         </mat-form-field>
         <button mat-flat-button color="primary" type="submit" class="w-full" [disabled]="loginForm.invalid">

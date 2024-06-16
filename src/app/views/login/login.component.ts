@@ -1,4 +1,4 @@
-import { Component, inject, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { HeaderComponent } from '@rha/components';
 import { Router } from '@angular/router';
@@ -8,7 +8,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Eye, EyeOff, LucideAngularModule } from 'lucide-angular';
-import { LucideIconData } from 'lucide-angular/icons/types';
 import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
 
 @Component({
@@ -34,11 +33,11 @@ export class LoginComponent extends BaseComponent {
 
   returnUrl = input<string>('');
   hide = signal(true);
-  eye = signal<LucideIconData>(Eye);
-  eyeOff = signal<LucideIconData>(EyeOff);
+  inputType = computed(() => this.hide() ? 'password' : 'text');
+  suffixIcon = computed(() => this.hide() ? EyeOff : Eye);
 
   loginForm = this.#fb.group({
-    password: [ '4RFVCDE32WSXZAQ1', Validators.required ],
+    password: this.#fb.nonNullable.control<string>('', Validators.required)
   });
 
   showForgotonPasswordDialog() {
