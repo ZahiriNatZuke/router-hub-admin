@@ -39,6 +39,7 @@ export class ThemeService {
         localStorage.setItem('RHA-THEME', this.#theme());
       }
       this.#renderer2.setAttribute(this.#htmlElement, 'data-theme', this.#theme());
+      this.#renderer2.removeClass(this.#document.body, ( this.#theme() === Themes.Dark ) ? Themes.Light : Themes.Dark);
       this.#renderer2.addClass(this.#document.body, this.#theme());
     }
   }

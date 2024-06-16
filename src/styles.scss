@@ -1,22 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
 @use '@angular/material' as mat;
 
-mat.$theme-ignore-duplication-warnings: true
-
-;
+mat.$theme-ignore-duplication-warnings: true;
 
 @include mat.core();
 
-
-$dark-theme: mat.define-theme((
-        color: (theme-type: dark, primary: mat.$azure-palette),
-        density: (scale: -1)
-));
-
-$light-theme: mat.define-theme((
-        color: (theme-type: light, primary: mat.$azure-palette),
-        density: (scale: -1)
-));
+$dark-theme: mat.define-theme((color: (theme-type: dark, primary: mat.$azure-palette), density: (scale: -1)));
+$light-theme: mat.define-theme((color: (theme-type: light, primary: mat.$azure-palette), density: (scale: -1)));
 
 html {
 
@@ -41,7 +31,6 @@ html {
   }
 
 }
-
 
 @tailwind base;
 @tailwind components;
