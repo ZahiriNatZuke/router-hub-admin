@@ -1,33 +1,22 @@
-import { Component, signal } from '@angular/core';
-import { NgOptimizedImage } from '@angular/common';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { HeaderComponent } from '@rha/components';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { HeaderComponent, SidebarComponent } from '@rha/components';
 import { interval } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BaseComponent } from '@rha/common/classes';
-import { MatRipple } from '@angular/material/core';
 
 @Component({
   selector: 'rha-admin',
   standalone: true,
   imports: [
-    NgOptimizedImage,
-    RouterLink,
     RouterOutlet,
     HeaderComponent,
-    RouterLinkActive,
-    MatRipple
+    SidebarComponent
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent extends BaseComponent {
-
-  sidebar = signal<{ label: string, route: string }[]>([
-    { label: 'Home', route: '/admin/home' },
-    { label: 'SMS List', route: '/admin/sms-list' },
-    { label: 'USSD Codes', route: '/admin/ussd-codes' }
-  ]);
 
   constructor() {
     super();

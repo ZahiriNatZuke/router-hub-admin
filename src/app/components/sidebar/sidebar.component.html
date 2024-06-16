@@ -1,0 +1,7 @@
+<div class="admin-container__sidebar">
+    @for (item of sidebar(); track item.label) {
+        <a [routerLink]="item.route" class="admin-sidebar__item" routerLinkActive="active" mat-ripple>
+            <span>{{ item.label }}</span>
+        </a>
+    }
+</div>

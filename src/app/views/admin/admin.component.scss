@@ -5,35 +5,6 @@
 .admin-wrapper {
   @apply w-full grid grid-cols-3 gap-5 p-5;
 
-  .admin-container__sidebar {
-    @apply col-span-1 flex flex-col space-y-5 p-5 bg-azure-400/30 dark:bg-slate-800/30 rounded-3xl shadow-md backdrop-blur-md;
-    height: calc(100dvh * 0.75);
-
-    .admin-sidebar__item {
-      @apply flex items-center justify-start p-3 ps-5 rounded-full cursor-pointer bg-azure-200 dark:bg-azure-400 transition-colors duration-300 ease-in-out;
-
-      &:hover {
-        @apply bg-azure-700 dark:bg-azure-800;
-
-        span {
-          @apply text-white;
-        }
-      }
-
-      &.active {
-        @apply bg-azure-800 dark:bg-azure-900;
-
-        span {
-          @apply text-white;
-        }
-      }
-
-      span {
-        @apply text-lg font-bold text-azure-800 dark:text-white;
-      }
-    }
-  }
-
   .admin-container__content {
     @apply col-span-2 flex flex-col p-5 bg-azure-400/30 dark:bg-slate-800/30 rounded-3xl shadow-md backdrop-blur-md overflow-y-auto relative;
     height: calc(100dvh * 0.75);
