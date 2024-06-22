@@ -98,7 +98,7 @@ export class ConfirmationUssdCodeDialog {
 @Component({
   template: `
       <div class="p-8">
-          <p class="font-semibold prose">{{ content }}</p>
+          <p class="font-semibold prose dark:text-white">{{ content }}</p>
       </div>
   `,
   standalone: true,
