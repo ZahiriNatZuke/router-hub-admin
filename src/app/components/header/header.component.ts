@@ -69,6 +69,7 @@ export class HeaderComponent extends BaseComponent {
 
   #getSystemStatus() {
     this.linkZone.getSystemStatus()
+      .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe((response) => {
         if ( response.result )
           this.#setSysStatusParams(response.result);
@@ -112,8 +113,10 @@ export class HeaderComponent extends BaseComponent {
   }
 
   toggle4GOnly($event: MatSlideToggleChange) {
-    $event.checked
-      ? this.linkZone.setNetworkSettings(NetworkMode.Only4G).subscribe()
-      : this.linkZone.setNetworkSettings(NetworkMode.Auto3GAnd4G).subscribe();
+    ( $event.checked
+      ? this.linkZone.setNetworkSettings(NetworkMode.Only4G)
+      : this.linkZone.setNetworkSettings(NetworkMode.Auto3GAnd4G) )
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe();
   }
 }

@@ -1,18 +1,34 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { delay, Observable, switchMap, tap } from 'rxjs';
+import { computed, Injectable, signal } from '@angular/core';
+import { defer, delay, Observable, switchMap, tap } from 'rxjs';
 import { JSONRPCResponse } from 'json-rpc-2.0/dist/models';
 import { RequestVerificationToken } from '@rha/common';
 import { NetworkMode } from '@rha/common/types/enums';
+import { createTRPCProxyClient, createWSClient, httpBatchLink, splitLink, wsLink } from '@trpc/client';
+import type { AppRouterType } from '@trpc-server/router';
+import superjson from 'superjson';
+import { serverConfig } from '@trpc-server/config';
+
+const { port, prefix } = serverConfig;
 
 @Injectable({ providedIn: 'root' })
 export class LinkZoneService {
 
-  #http = inject(HttpClient);
   #token = signal<string>('');
-  isLoggin = computed(() => this.#token().trim().length > 0);
-  #proxyURL = signal('http://localhost:3000/proxy').asReadonly();
+  #urlEnd = `localhost:${ port }${ prefix }`;
+  #wsClient = createWSClient({ url: `ws://${ this.#urlEnd }` });
+  #trpcProxyClient = createTRPCProxyClient<AppRouterType>({
+    transformer: superjson,
+    links: [
+      splitLink({
+        condition: (op) => op.type === 'subscription',
+        true: wsLink({ client: this.#wsClient }),
+        false: httpBatchLink({ url: `http://${ this.#urlEnd }` }),
+      })
+    ],
+  });
 
+  isLoggin = computed(() => this.#token().trim().length > 0);
+  
   set token(token: string) {
     this.#token.set(token);
   }
@@ -29,56 +45,22 @@ export class LinkZoneService {
     return encoded.join('');
   }
 
-  #linkZoneRequest(payload: any): Observable<JSONRPCResponse> {
-    return this.#http.post<JSONRPCResponse>(
-      this.isLoggin() ? `${ this.#proxyURL() }?token=${ this.#token() }` : this.#proxyURL(),
-      payload
-    );
-  }
-
   connectInternet() {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'Connect',
-      id: '3.2'
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.connectInternet.query({ token: this.#token() }));
   }
 
   disconnectInternet() {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'DisConnect',
-      id: '3.2'
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.disconnectInternet.query({ token: this.#token() }));
   }
 
   heartBeat() {
-    const data = {
-      id: '12',
-      jsonrpc: '2.0',
-      method: 'HeartBeat',
-      params: {}
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.heartBeat.query({ token: this.#token() }));
   }
 
   login(pwd: string): Observable<JSONRPCResponse> {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'Login',
-      params: {
-        UserName: this.#encrypt('admin'),
-        Password: this.#encrypt(pwd)
-      },
-      id: '1.1'
-    };
-
-    return this.#linkZoneRequest(data)
+    const UserName = this.#encrypt('admin');
+    const Password = this.#encrypt(pwd);
+    return defer(() => this.#trpcProxyClient.login.query({ UserName, Password }))
       .pipe(
         tap((res) => {
           this.token = this.#encrypt(`${ res.result.token }`);
@@ -93,80 +75,31 @@ export class LinkZoneService {
   }
 
   getSystemStatus() {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'GetSystemStatus',
-      id: '13.4'
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.systemStatus.query());
   }
 
   getSimStatus() {
-    const data = {
-      id: '12',
-      jsonrpc: '2.0',
-      method: 'GetSimStatus',
-      params: {}
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.simStatus.query({ token: this.#token() }));
   }
 
   getNetworkInfo() {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'GetNetworkInfo',
-      id: '12',
-      params: {}
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.networkInfo.query());
   }
 
   getNetworkSettings() {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'GetNetworkSettings',
-      id: '12'
-    };
+    return defer(() => this.#trpcProxyClient.networkSettings.get.query({ token: this.#token() }));
+  }
 
-    return this.#linkZoneRequest(data);
+  setNetworkSettings(NetworkMode: NetworkMode) {
+    return defer(() => this.#trpcProxyClient.networkSettings.set.query({ token: this.#token(), NetworkMode }));
   }
 
   getCurrentProfile() {
-    const data = {
-      id: '12',
-      jsonrpc: '2.0',
-      method: 'getCurrentProfile',
-      params: {}
-    };
-
-    return this.#linkZoneRequest(data);
-  }
-
-  setNetworkSettings(networkMode: NetworkMode) {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'SetNetworkSettings',
-      params: {
-        NetworkMode: networkMode,
-        NetselectionMode: 0
-      },
-      id: '4.7'
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.currentProfile.query({ token: this.#token() }));
   }
 
   getConnectionState() {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'GetConnectionState',
-      id: '3.1'
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.connectionState.query({ token: this.#token() }));
   }
 
   setNetwork(networkMode: NetworkMode) {
@@ -185,38 +118,20 @@ export class LinkZoneService {
 
   }
 
-  sendUssd(ussdCode: string, ussdType: number = 1) {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'SendUSSD',
-      params: {
-        UssdContent: ussdCode,
-        UssdType: ussdType
-      },
-      id: '8.1'
-    };
-
-    return this.#linkZoneRequest(data);
+  sendUssd(ussdCode: string, UssdType: number = 1) {
+    return defer(() => this.#trpcProxyClient.ussd.send.query({
+      token: this.#token(),
+      UssdType,
+      UssdContent: ussdCode
+    }));
   }
 
   setUssdEnd() {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'SetUSSDEnd',
-      id: '8.3'
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.ussd.end.query({ token: this.#token() }));
   }
 
   getUSSDSendResult() {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'GetUSSDSendResult',
-      id: '8.2'
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.ussd.result.query({ token: this.#token() }));
   }
 
   sendUssdCode(ussdCode: string, ussdType: number = 1) {
@@ -228,96 +143,28 @@ export class LinkZoneService {
 
   }
 
-  getSmsList(page: number = 1) {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'GetSMSListByContactNum',
-      params: {
-        Page: page,
-        key: 'inbox'
-      },
-      id: '12'
-    };
-
-    return this.#linkZoneRequest(data);
+  getSmsList(Page: number = 1) {
+    return defer(() => this.#trpcProxyClient.sms.list.query({ token: this.#token(), Page }));
   }
 
   getSMSStorageState() {
-    const data = {
-      id: '12',
-      jsonrpc: '2.0',
-      method: 'GetSMSStorageState',
-      params: {}
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.sms.storageState.query({ token: this.#token() }));
   }
 
-  getSmsContentList(page: number, contactId: number) {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'GetSMSContentList',
-      params: {
-        Page: page,
-        ContactId: contactId
-      },
-      id: '6.3'
-    };
-
-    return this.#linkZoneRequest(data);
+  getSmsContentList(Page: number, ContactId: number) {
+    return defer(() => this.#trpcProxyClient.sms.contentList.query({ token: this.#token(), Page, ContactId }));
   }
 
-  deleteSms(smsId: number, contactId: number) {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'DeleteSMS',
-      params: {
-        DelFlag: 2,
-        ContactId: contactId,
-        SMSId: smsId
-      },
-      id: '6.5'
-    };
-
-    return this.#linkZoneRequest(data);
-  }
-
-  getSmsStorageState() {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'GetSMSStorageState',
-      id: '6.4'
-    };
-
-    return this.#linkZoneRequest(data);
+  deleteSms(SMSId: number, ContactId: number) {
+    return defer(() => this.#trpcProxyClient.sms.delete.query({ token: this.#token(), SMSId, ContactId }));
   }
 
   getSmsResult() {
-    const data = {
-      jsonrpc: '2.0',
-      method: 'GetSendSMSResult',
-      id: '6.7'
-    };
-
-    return this.#linkZoneRequest(data);
+    return defer(() => this.#trpcProxyClient.sms.result.query({ token: this.#token() }));
   }
 
-  getSendSms(content: string, phoneNumber: string) {
-    let dateNow = new Date().toISOString().replace('T', ' ').substring(0, 19);
-
-    const data = {
-      jsonrpc: '2.0',
-      method: 'SendSMS',
-      params: {
-        SMSId: -1,
-        SMSContent: content,
-        PhoneNumber: [ phoneNumber ],
-        SMSTime: dateNow
-      },
-      id: '6.6'
-    };
-
-    return this.#linkZoneRequest(data);
+  getSendSms(SMSContent: string, PhoneNumber: string) {
+    return defer(() => this.#trpcProxyClient.sms.send.query({ token: this.#token(), SMSContent, PhoneNumber }));
   }
 
   sendSms(content: string, phoneNumber: string) {

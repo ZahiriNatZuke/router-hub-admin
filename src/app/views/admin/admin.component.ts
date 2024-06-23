@@ -24,6 +24,7 @@ export class AdminComponent extends BaseComponent {
       .pipe(takeUntilDestroyed())
       .subscribe(() => {
         this.linkZone.heartBeat()
+          .pipe(takeUntilDestroyed(this.destroyRef$))
           .subscribe((res) => {
             console.log('[heartBeat]', res?.result ? '✅' : '❌');
           });

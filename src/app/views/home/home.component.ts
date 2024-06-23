@@ -2,7 +2,7 @@ import { Component, computed, signal } from '@angular/core';
 import { NgOptimizedImage } from '@angular/common';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { BaseComponent } from '@rha/common/classes';
-import { forkJoin, interval } from 'rxjs';
+import { delay, forkJoin, interval, of, tap } from 'rxjs';
 import { ConnectionState, NetworkInfo, NetworkSettings, ProfileData, SimStatus, SystemStatus } from '@rha/common/types';
 import { NETWORKS_TYPES } from '@rha/common';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -47,7 +47,11 @@ export class HomeComponent extends BaseComponent {
 
   constructor() {
     super();
-    this.#loadHomeData();
+    of(true)
+      .pipe(
+      delay(150),
+      tap(() => this.#loadHomeData())
+    ).subscribe();
     interval(3 * 1000)
       .pipe(takeUntilDestroyed())
       .subscribe(() => this.#loadHomeData());
@@ -77,6 +81,8 @@ export class HomeComponent extends BaseComponent {
       this.connectionState()?.ConnectionStatus === 2
         ? this.linkZone.disconnectInternet()
         : this.linkZone.connectInternet()
-    ).subscribe(() => this.restarting.set(true));
+    )
+      .pipe(takeUntilDestroyed(this.destroyRef$))
+      .subscribe(() => this.restarting.set(true));
   }
 }

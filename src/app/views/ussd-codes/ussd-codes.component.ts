@@ -15,6 +15,7 @@ import { filter } from 'rxjs';
 import { MatRipple } from '@angular/material/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DomSanitizer } from '@angular/platform-browser';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'rha-ussd-codes',
@@ -46,6 +47,7 @@ export class UssdCodesComponent extends BaseComponent {
       .subscribe(() => {
         this.processingUssdCode.set(value);
         this.linkZone.sendUssdCode(value)
+          .pipe(takeUntilDestroyed(this.destroyRef$))
           .subscribe((res) => {
             this.processingUssdCode.set('');
             this.#bottomSheet.open(
@@ -120,4 +122,3 @@ export class UssdContentResultDialog {
   }
 
 }
-

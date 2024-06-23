@@ -9,6 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Eye, EyeOff, LucideAngularModule } from 'lucide-angular';
 import { MatDialog, MatDialogActions, MatDialogClose, MatDialogContent } from '@angular/material/dialog';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'rha-login',
@@ -52,6 +53,7 @@ export class LoginComponent extends BaseComponent {
   onLogin() {
     if ( this.loginForm.valid ) {
       this.linkZone.login(this.loginForm.value.password!)
+        .pipe(takeUntilDestroyed(this.destroyRef$))
         .subscribe((response) => {
           if ( response.result ) {
             this.returnUrl()

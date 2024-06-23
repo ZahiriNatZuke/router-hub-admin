@@ -17,7 +17,7 @@ import {
   MatRowDef,
   MatTable
 } from '@angular/material/table';
-import { forkJoin } from 'rxjs';
+import { delay, forkJoin, of, tap } from 'rxjs';
 
 @Component({
   selector: 'rha-sms-list',
@@ -55,10 +55,14 @@ export class SmsListComponent extends BaseComponent {
 
   constructor() {
     super();
-    this.fetchSmsList();
+    of(true)
+      .pipe(
+        delay(150),
+        tap(() => this.#fetchSmsList())
+      ).subscribe();
   }
 
-  private fetchSmsList(page: number = 1) {
+  #fetchSmsList(page: number = 1) {
     forkJoin({
       smsList: this.linkZone.getSmsList(page),
       smsStorage: this.linkZone.getSMSStorageState()
@@ -70,9 +74,9 @@ export class SmsListComponent extends BaseComponent {
     });
   }
 
-  public goToPage({ pageIndex }: PageEvent) {
+  goToPage({ pageIndex }: PageEvent) {
     this.Page.set(pageIndex);
-    this.fetchSmsList(pageIndex + 1);
+    this.#fetchSmsList(pageIndex + 1);
   }
 
 }
