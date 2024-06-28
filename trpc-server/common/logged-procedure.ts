@@ -9,8 +9,8 @@ export const loggedProcedure = publicProcedure.use(async (opts) => {
   const meta = { path: opts.path, type: opts.type, duration: `${ durationMs }ms` };
 
   result.ok
-    ? console.log(`[${ new Date().toISOString() }] (OK) =>`, meta)
-    : console.error(`[${ new Date().toISOString() }] (Non-OK) =>`, meta);
+    ? console.log(`[${ new Date().toISOString() }] (Success) =>`, meta)
+    : console.error(`[${ new Date().toISOString() }] (Fail) =>`, meta);
 
   return result;
 });
