@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { HeaderComponent, SidebarComponent } from '@rha/components';
 import { interval } from 'rxjs';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -18,6 +18,8 @@ import { BaseComponent } from '@rha/common/classes';
 })
 export class AdminComponent extends BaseComponent {
 
+  #router = inject(Router);
+
   constructor() {
     super();
     interval(5 * 1000)
@@ -27,6 +29,10 @@ export class AdminComponent extends BaseComponent {
           .pipe(takeUntilDestroyed(this.destroyRef$))
           .subscribe((res) => {
             console.log('[heartBeat]', res?.result ? '✅' : '❌');
+            if ( res?.error ) {
+              this.linkZone.logout();
+              this.#router.navigate([ '/login' ]);
+            }
           });
       });
   }
