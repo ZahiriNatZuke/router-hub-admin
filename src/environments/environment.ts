@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  httpBatchLink: 'http://localhost/api/trpc',
-  wsClient: 'ws://localhost/api/trpc'
+  httpBatchLink: 'http://localhost:2022/trpc',
+  wsClient: 'ws://localhost:2022/trpc'
 };
