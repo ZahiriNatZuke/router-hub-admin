@@ -6,29 +6,26 @@ import { NetworkMode } from '@rha/common/types/enums';
 import { createTRPCProxyClient, createWSClient, httpBatchLink, splitLink, wsLink } from '@trpc/client';
 import type { AppRouterType } from '@trpc-server/router';
 import superjson from 'superjson';
-import { serverConfig } from '@trpc-server/config';
-
-const { port, prefix } = serverConfig;
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class LinkZoneService {
 
   #token = signal<string>('');
-  #urlEnd = `localhost:${ port }${ prefix }`;
-  #wsClient = createWSClient({ url: `ws://${ this.#urlEnd }` });
+  #wsClient = createWSClient({ url: environment.wsClient });
   #trpcProxyClient = createTRPCProxyClient<AppRouterType>({
     transformer: superjson,
     links: [
       splitLink({
         condition: (op) => op.type === 'subscription',
         true: wsLink({ client: this.#wsClient }),
-        false: httpBatchLink({ url: `http://${ this.#urlEnd }` }),
+        false: httpBatchLink({ url: environment.httpBatchLink }),
       })
     ],
   });
 
   isLoggin = computed(() => this.#token().trim().length > 0);
-  
+
   set token(token: string) {
     this.#token.set(token);
   }
