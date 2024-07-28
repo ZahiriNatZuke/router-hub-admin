@@ -2,16 +2,9 @@ import { Component, inject, SecurityContext, signal } from '@angular/core';
 import { USSD_CODES, UssdCode } from '@rha/common';
 import { CurrencyPipe } from '@angular/common';
 import { BaseComponent } from '@rha/common/classes';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogTitle
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
-import { filter } from 'rxjs';
+import { filter, interval, Subject, switchMap, takeUntil } from 'rxjs';
 import { MatRipple } from '@angular/material/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheet } from '@angular/material/bottom-sheet';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -31,6 +24,7 @@ export class UssdCodesComponent extends BaseComponent {
 
   #dialog = inject(MatDialog);
   #bottomSheet = inject(MatBottomSheet);
+  #clearGetUSSDResult$ = new Subject<boolean>();
 
   ussdCodes = signal<Array<UssdCode>>(USSD_CODES).asReadonly();
   processingUssdCode = signal<string>('');
@@ -48,21 +42,31 @@ export class UssdCodesComponent extends BaseComponent {
         this.processingUssdCode.set(value);
         this.linkZone.sendUssdCode(value)
           .pipe(takeUntilDestroyed(this.destroyRef$))
-          .subscribe((res) => {
-            this.processingUssdCode.set('');
-            this.#bottomSheet.open(
-              UssdContentResultDialog,
-              {
-                data: {
-                  content: String(res.result?.UssdContent)
-                },
-                autoFocus: 'dialog'
-              }
-            );
-          });
+          .subscribe(() => this.#fetchUSSDResult());
       });
   }
 
+  #fetchUSSDResult() {
+    interval(5000)
+      .pipe(
+        takeUntil(this.#clearGetUSSDResult$),
+        switchMap(() => this.linkZone.getUSSDSendResult())
+      ).subscribe((res) => {
+      if ( res.result?.UssdContent.trim().length > 0 ) {
+        this.#clearGetUSSDResult$.next(true);
+        this.processingUssdCode.set('');
+        this.#bottomSheet.open(
+          UssdContentResultDialog,
+          {
+            data: {
+              content: String(res.result?.UssdContent)
+            },
+            autoFocus: 'dialog'
+          }
+        );
+      }
+    });
+  }
 }
 
 @Component({
