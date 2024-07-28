@@ -25,6 +25,9 @@
       "dom"
     ],
     "paths": {
+      "@rha/env": [
+        "src/environments/index"
+      ],
       "@rha/*": [
         "src/app/*"
       ],

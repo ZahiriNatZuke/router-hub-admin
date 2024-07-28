@@ -2,6 +2,7 @@ import { computed, inject, Injectable, PLATFORM_ID, RendererFactory2, signal } f
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { Themes } from '@rha/common/types/enums';
+import { environment } from "@rha/env";
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
@@ -24,19 +25,19 @@ export class ThemeService {
       this.#renderer2.setAttribute(this.#htmlElement, 'data-theme', theme);
       this.#renderer2.removeClass(this.#document.body, this.#theme());
       this.#renderer2.addClass(this.#document.body, theme);
-      localStorage.setItem('RHA-THEME', theme);
+      localStorage.setItem(environment.THEME_KEY, theme);
       this.#theme.set(theme);
     }
   }
 
   getColorPreference() {
     if ( isPlatformBrowser(this.#platform) ) {
-      if ( localStorage.getItem('RHA-THEME') ) {
-        this.#theme.set(localStorage.getItem('RHA-THEME') as Themes);
+      if ( localStorage.getItem(environment.THEME_KEY) ) {
+        this.#theme.set(localStorage.getItem(environment.THEME_KEY) as Themes);
       } else {
         const themeQuery = this.#mediaMatcher.matchMedia('(prefers-color-scheme: dark)');
         this.#theme.set(themeQuery.matches ? Themes.Dark : Themes.Light);
-        localStorage.setItem('RHA-THEME', this.#theme());
+        localStorage.setItem(environment.THEME_KEY, this.#theme());
       }
       this.#renderer2.setAttribute(this.#htmlElement, 'data-theme', this.#theme());
       this.#renderer2.removeClass(this.#document.body, ( this.#theme() === Themes.Dark ) ? Themes.Light : Themes.Dark);

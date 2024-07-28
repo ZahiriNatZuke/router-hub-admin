@@ -6,7 +6,7 @@ import { NetworkMode } from '@rha/common/types/enums';
 import { createTRPCProxyClient, createWSClient, httpBatchLink, splitLink, wsLink } from '@trpc/client';
 import type { AppRouterType } from '@trpc-server/router';
 import superjson from 'superjson';
-import { environment } from '../../environments/environment';
+import { environment } from '@rha/env';
 
 @Injectable({ providedIn: 'root' })
 export class LinkZoneService {
@@ -132,12 +132,7 @@ export class LinkZoneService {
   }
 
   sendUssdCode(ussdCode: string, ussdType: number = 1) {
-    return this.sendUssd(ussdCode, ussdType)
-      .pipe(
-        delay(5000),
-        switchMap(() => this.getUSSDSendResult())
-      );
-
+    return this.sendUssd(ussdCode, ussdType);
   }
 
   getSmsList(Page: number = 1) {
