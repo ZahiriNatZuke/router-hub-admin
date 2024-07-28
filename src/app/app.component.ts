@@ -25,14 +25,15 @@ export class AppComponent extends BaseComponent {
 
   constructor() {
     super();
-    if ( sessionStorage.getItem(RequestVerificationToken) )
-      this.linkZone.token = sessionStorage.getItem(RequestVerificationToken)!;
+    if ( isPlatformBrowser(this.#platform) ) {
+      if ( sessionStorage.getItem(RequestVerificationToken) )
+        this.linkZone.token = sessionStorage.getItem(RequestVerificationToken)!;
 
-    if ( isPlatformBrowser(this.#platform) )
       afterNextRender(
         () => this.#themeService.getColorPreference(),
         { phase: AfterRenderPhase.MixedReadWrite }
       );
+    }
   }
 
 }
