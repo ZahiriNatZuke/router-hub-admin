@@ -1,8 +1,8 @@
-import { jsonRpcProxy, loggedProcedure } from '@trpc-server/common';
+import { jsonRpcProxy, publicProcedure } from '@trpc-server/common';
 import { JSONRPCRequest } from 'json-rpc-2.0';
 import { z } from 'zod';
 
-export const login = loggedProcedure
+export const login = publicProcedure
   .input(z.object({ UserName: z.string(), Password: z.string() }))
   .query(async ({ input }) => {
     const body: JSONRPCRequest = {

@@ -1,7 +1,7 @@
-import { jsonRpcProxy, loggedProcedure } from '@trpc-server/common';
+import { jsonRpcProxy, publicProcedure } from '@trpc-server/common';
 import { JSONRPCRequest } from 'json-rpc-2.0';
 
-export const systemStatus = loggedProcedure
+export const systemStatus = publicProcedure
   .query(async () => {
     const body: JSONRPCRequest = {
       jsonrpc: '2.0',

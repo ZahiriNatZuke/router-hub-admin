@@ -1,8 +1,8 @@
-import { jsonRpcProxy, loggedProcedure } from '@trpc-server/common';
+import { jsonRpcProxy, publicProcedure } from '@trpc-server/common';
 import { z } from 'zod';
 import { JSONRPCRequest } from 'json-rpc-2.0';
 
-export const connectInternet = loggedProcedure
+export const connectInternet = publicProcedure
   .input(z.object({ token: z.string() }))
   .query(async ({ input }) => {
     const body: JSONRPCRequest = {

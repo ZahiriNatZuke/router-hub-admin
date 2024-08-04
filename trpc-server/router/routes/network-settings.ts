@@ -1,19 +1,20 @@
-import { jsonRpcProxy, loggedProcedure, router } from '@trpc-server/common';
+import { jsonRpcProxy, publicProcedure, router } from '@trpc-server/common';
 import { JSONRPCRequest } from 'json-rpc-2.0';
 import { z } from 'zod';
 
 export const networkSettings = router({
-  get: loggedProcedure
+  get: publicProcedure
     .input(z.object({ token: z.string() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {
         jsonrpc: '2.0',
         method: 'GetNetworkSettings',
-        id: '12'
+        id: '12',
+        params: {}
       };
       return await jsonRpcProxy(body, input.token);
     }),
-  set: loggedProcedure
+  set: publicProcedure
     .input(z.object({ token: z.string(), NetworkMode: z.number() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {

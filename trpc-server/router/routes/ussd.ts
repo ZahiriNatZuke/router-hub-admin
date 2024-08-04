@@ -1,9 +1,9 @@
-import { jsonRpcProxy, loggedProcedure, router } from '@trpc-server/common';
+import { jsonRpcProxy, publicProcedure, router } from '@trpc-server/common';
 import { z } from 'zod';
 import { JSONRPCRequest } from 'json-rpc-2.0';
 
 export const ussd = router({
-  send: loggedProcedure
+  send: publicProcedure
     .input(z.object({ token: z.string(), UssdContent: z.string(), UssdType: z.number() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {
@@ -17,7 +17,7 @@ export const ussd = router({
       };
       return await jsonRpcProxy(body, input.token);
     }),
-  end: loggedProcedure
+  end: publicProcedure
     .input(z.object({ token: z.string() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {
@@ -27,7 +27,7 @@ export const ussd = router({
       };
       return await jsonRpcProxy(body, input.token);
     }),
-  result: loggedProcedure
+  result: publicProcedure
     .input(z.object({ token: z.string() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {

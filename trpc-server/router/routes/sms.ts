@@ -1,9 +1,9 @@
-import { jsonRpcProxy, loggedProcedure, router } from '@trpc-server/common';
+import { jsonRpcProxy, publicProcedure, router } from '@trpc-server/common';
 import { z } from 'zod';
 import { JSONRPCRequest } from 'json-rpc-2.0';
 
 export const sms = router({
-  list: loggedProcedure
+  list: publicProcedure
     .input(z.object({ token: z.string(), Page: z.number() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {
@@ -17,7 +17,7 @@ export const sms = router({
       };
       return await jsonRpcProxy(body, input.token);
     }),
-  storageState: loggedProcedure
+  storageState: publicProcedure
     .input(z.object({ token: z.string() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {
@@ -28,7 +28,7 @@ export const sms = router({
       };
       return await jsonRpcProxy(body, input.token);
     }),
-  contentList: loggedProcedure
+  contentList: publicProcedure
     .input(z.object({ token: z.string(), Page: z.number(), ContactId: z.number() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {
@@ -42,7 +42,7 @@ export const sms = router({
       };
       return await jsonRpcProxy(body, input.token);
     }),
-  delete: loggedProcedure
+  delete: publicProcedure
     .input(z.object({ token: z.string(), SMSId: z.number(), ContactId: z.number() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {
@@ -57,7 +57,7 @@ export const sms = router({
       };
       return await jsonRpcProxy(body, input.token);
     }),
-  result: loggedProcedure
+  result: publicProcedure
     .input(z.object({ token: z.string() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {
@@ -67,7 +67,7 @@ export const sms = router({
       };
       return await jsonRpcProxy(body, input.token);
     }),
-  send: loggedProcedure
+  send: publicProcedure
     .input(z.object({ token: z.string(), SMSContent: z.string(), PhoneNumber: z.string() }))
     .query(async ({ input }) => {
       const body: JSONRPCRequest = {
