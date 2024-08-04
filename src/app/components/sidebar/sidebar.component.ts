@@ -18,7 +18,8 @@ export class SidebarComponent {
   sidebar = signal<{ label: string, route: string }[]>([
     { label: 'Home', route: '/admin/home' },
     { label: 'SMS List', route: '/admin/sms-list' },
-    { label: 'USSD Codes', route: '/admin/ussd-codes' }
+    { label: 'USSD Codes', route: '/admin/ussd-codes' },
+    { label: 'Device Access', route: '/admin/device-access' }
   ]).asReadonly();
 
 }

@@ -1,0 +1,107 @@
+<mat-tab-group [animationDuration]="0">
+    <mat-tab>
+        <ng-template mat-tab-label>Connected Devices</ng-template>
+        <ng-template matTabContent>
+            <table mat-table [dataSource]="devicesConnectedList()" matSort matSortDisableClear
+                   matSortActive="DeviceName" matSortDirection="asc">
+
+                <!-- DeviceName Column -->
+                <ng-container matColumnDef="DeviceName">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Device</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <div class="flex justify-start items-center space-x-1.5">
+                            <span>{{ row.DeviceName }}</span>
+                            <button mat-icon-button class="change-device-name-btn" (click)="openChangeDeviceNameDialog(row)">
+                                <lucide-icon [name]="PencilIcon()" [size]="16"></lucide-icon>
+                            </button>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <!-- IPAddress Column -->
+                <ng-container matColumnDef="IPAddress">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>IP</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.IPAddress }}</td>
+                </ng-container>
+
+                <!-- AssociationTime Column -->
+                <ng-container matColumnDef="AssociationTime">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        <b>Duration</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <rha-counter [counter]="row.AssociationTime"/>
+                    </td>
+                </ng-container>
+
+                <!-- InternetRight Column -->
+                <ng-container matColumnDef="InternetRight">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        <b>Internet</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <mat-slide-toggle color="primary" [checked]="row.InternetRight === 1" (change)="toggleInternetAccess($event, row)"/>
+                    </td>
+                </ng-container>
+
+                <!-- Operation Column -->
+                <ng-container matColumnDef="Operation">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        <b>Operation</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-flat-button color="warn" [disabled]="row.DeviceType === 0" (click)="blockDevice(row)">
+                            Block
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="connectedColumns(); sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: connectedColumns();"></tr>
+            </table>
+        </ng-template>
+    </mat-tab>
+    <mat-tab>
+        <ng-template mat-tab-label>Blocked Devices</ng-template>
+        <ng-template matTabContent>
+            <table mat-table [dataSource]="devicesBlockedList()" matSort matSortDisableClear
+                   matSortActive="DeviceName" matSortDirection="asc">
+
+                <!-- DeviceName Column -->
+                <ng-container matColumnDef="DeviceName">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <b>Device</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.DeviceName }}</td>
+                </ng-container>
+
+                <!-- MacAddress Column -->
+                <ng-container matColumnDef="MacAddress">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        <b>MAC</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">{{ row.MacAddress }}</td>
+                </ng-container>
+
+                <!-- Operation Column -->
+                <ng-container matColumnDef="Operation">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header disableClear>
+                        <b>Operation</b>
+                    </th>
+                    <td mat-cell *matCellDef="let row">
+                        <button mat-flat-button color="primary" (click)="unBlockDevice(row)">
+                            Unblock
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="blockedColumns(); sticky: true"></tr>
+                <tr mat-row *matRowDef="let row; columns: blockedColumns();"></tr>
+            </table>
+        </ng-template>
+    </mat-tab>
+</mat-tab-group>

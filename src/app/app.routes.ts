@@ -31,6 +31,10 @@ export const routes: Routes = [
       {
         path: 'ussd-codes',
         loadComponent: () => import('./views/ussd-codes').then(c => c.UssdCodesComponent)
+      },
+      {
+        path: 'device-access',
+        loadComponent: () => import('./views/device-access').then(c => c.DeviceAccessComponent)
       }
     ],
     canActivate: [ loginTokenGuard ]
