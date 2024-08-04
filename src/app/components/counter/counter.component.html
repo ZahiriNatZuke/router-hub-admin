@@ -1,0 +1,11 @@
+<div class="time-counter">
+    <div class="hours">
+        <span class="value">{{ counter().hours < 10 ? '0' + counter().hours : counter().hours }}</span>
+    </div>
+    <div class="minutes">
+        <span class="value">{{ counter().minutes < 10 ? '0' + counter().minutes : counter().minutes }}</span>
+    </div>
+    <div class="seconds">
+        <span class="value">{{ counter().seconds < 10 ? '0' + counter().seconds : counter().seconds }}</span>
+    </div>
+</div>

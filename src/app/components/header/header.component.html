@@ -22,13 +22,13 @@
         @if (signalStrength()) {
             <i-lucide [name]="signalStrength()!" class="signal-strength-bar"/>
         }
-        @if (isLoggin()) {
+        @if (isLoggedIn()) {
             <mat-slide-toggle color="primary" [checked]="is4GOnly()" (change)="toggle4GOnly($event)"
                               class="relative -top-1">
                 <span class="ms-1.5 font-bold text-azure-800 dark:text-white relative top-0.5">4G Only</span>
             </mat-slide-toggle>
             <rha-theme-toggle/>
-            <button mat-icon-button class="logout-btn" (click)="onlogOut()">
+            <button mat-icon-button class="logout-btn" (click)="onLogOut()">
                 <lucide-icon [name]="logOutIcon()"></lucide-icon>
             </button>
         } @else {

@@ -1,0 +1,31 @@
+.time-counter {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  column-gap: 1rem;
+
+  .hours,
+  .minutes,
+  .seconds {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .hours,
+  .minutes {
+    position: relative;
+
+    &::after {
+      content: ":";
+      font-size: 1rem;
+      font-weight: 500;
+      position: absolute;
+      right: -11px;
+      top: -1px;
+    }
+  }
+
+}

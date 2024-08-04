@@ -19,7 +19,7 @@ import { BaseComponent } from '@rha/common/classes';
 import { SystemStatus } from '@rha/common/types';
 import { MatIconButton } from '@angular/material/button';
 import { MatSlideToggle, MatSlideToggleChange } from '@angular/material/slide-toggle';
-import { NetworkMode } from '@rha/common/types/enums';
+import { NetworkMode } from '@rha/common/types';
 import { ThemeToggleComponent } from '@rha/components';
 
 @Component({
@@ -54,14 +54,14 @@ export class HeaderComponent extends BaseComponent {
   networkType = signal('');
   signalStrength = signal<LucideIconData>(WifiOff);
   logOutIcon = signal<LucideIconData>(LogOut).asReadonly();
-  isLoggin = this.linkZone.isLoggin;
+  isLoggedIn = this.linkZone.isLoggedIn;
   is4GOnly = signal(false);
 
   constructor() {
     super();
     effect(() => {
       this.#clearInterval$.next(true);
-      this.isLoggin()
+      this.isLoggedIn()
         ? this.#executeInterval(() => this.#getSystemStatusAndNetwirkSettings())
         : this.#executeInterval(() => this.#getSystemStatus());
     });
@@ -107,7 +107,7 @@ export class HeaderComponent extends BaseComponent {
       .subscribe(() => func());
   }
 
-  onlogOut() {
+  onLogOut() {
     this.linkZone.logout();
     this.#router.navigate([ '/login' ]);
   }
@@ -119,4 +119,5 @@ export class HeaderComponent extends BaseComponent {
       .pipe(takeUntilDestroyed(this.destroyRef$))
       .subscribe();
   }
+
 }
