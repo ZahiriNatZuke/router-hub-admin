@@ -119,10 +119,10 @@ export class ConfirmationUssdCodeDialog {
 export class UssdContentResultDialog {
 
   #data = inject(MAT_BOTTOM_SHEET_DATA);
-  #domSanatizer = inject(DomSanitizer);
+  #domSanitizer = inject(DomSanitizer);
 
   get content() {
-    return this.#domSanatizer.sanitize(SecurityContext.HTML, this.#data.content);
+    return this.#domSanitizer.sanitize(SecurityContext.HTML, this.#data.content);
   }
 
 }

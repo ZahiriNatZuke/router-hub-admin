@@ -24,7 +24,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
             verticalPosition: 'top'
           }
         );
-        if ( linkZone.isLoggin() ) {
+        if ( linkZone.isLoggedIn() ) {
           linkZone.logout();
           router.navigate([ '/login' ], { queryParams: { returnUrl: router.url } });
         }
@@ -41,7 +41,7 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
           verticalPosition: 'top'
         }
       );
-      if ( linkZone.isLoggin() ) {
+      if ( linkZone.isLoggedIn() ) {
         linkZone.logout();
         router.navigate([ '/login' ], { queryParams: { returnUrl: router.url } });
       }

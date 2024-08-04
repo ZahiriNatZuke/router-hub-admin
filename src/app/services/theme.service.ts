@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, PLATFORM_ID, RendererFactory2, signal } from '@angular/core';
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { Themes } from '@rha/common/types/enums';
+import { Themes } from '@rha/common/types';
 import { environment } from "@rha/env";
 
 @Injectable({ providedIn: 'root' })

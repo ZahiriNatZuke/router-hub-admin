@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { NgClass } from '@angular/common';
 import { ThemeService } from '@rha/services';
-import { Themes } from '@rha/common/types/enums';
+import { Themes } from '@rha/common/types';
 
 @Component({
   selector: 'rha-theme-toggle',

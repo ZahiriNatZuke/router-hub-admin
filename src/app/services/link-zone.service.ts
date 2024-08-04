@@ -2,7 +2,7 @@ import { computed, Injectable, signal } from '@angular/core';
 import { defer, delay, Observable, switchMap, tap } from 'rxjs';
 import { JSONRPCResponse } from 'json-rpc-2.0/dist/models';
 import { RequestVerificationToken } from '@rha/common';
-import { NetworkMode } from '@rha/common/types/enums';
+import { Device, NetworkMode } from '@rha/common/types';
 import { createTRPCProxyClient, createWSClient, httpBatchLink, splitLink, wsLink } from '@trpc/client';
 import type { AppRouterType } from '@trpc-server/router';
 import superjson from 'superjson';
@@ -24,7 +24,7 @@ export class LinkZoneService {
     ],
   });
 
-  isLoggin = computed(() => this.#token().trim().length > 0);
+  isLoggedIn = computed(() => this.#token().trim().length > 0);
 
   set token(token: string) {
     this.#token.set(token);
