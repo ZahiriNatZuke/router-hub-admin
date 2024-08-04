@@ -167,4 +167,54 @@ export class LinkZoneService {
       );
   }
 
+  getConnectedDeviceList() {
+    return defer(() => this.#trpcProxyClient.deviceAccess.getConnectedList.query({ token: this.#token() }));
+  }
+
+  getBlockedDeviceList() {
+    return defer(() => this.#trpcProxyClient.deviceAccess.getBlockedList.query({ token: this.#token() }));
+  }
+
+  setInternetRight(device: Device) {
+    return defer(() => this.#trpcProxyClient.deviceAccess.internetRight.query({
+      token: this.#token(),
+      device: {
+        DeviceName: device.DeviceName,
+        MacAddress: device.MacAddress,
+        StorageRight: device?.StorageRight ?? 1,
+        InternetRight: device?.InternetRight ?? 1
+      }
+    }));
+  }
+
+  setDeviceName(device: Device) {
+    return defer(() => this.#trpcProxyClient.deviceAccess.setDeviceName.query({
+      token: this.#token(),
+      device: {
+        DeviceName: device.DeviceName,
+        MacAddress: device.MacAddress
+      }
+    }));
+  }
+
+  setConnectedDeviceBlock(device: Device) {
+    return defer(() => this.#trpcProxyClient.deviceAccess.setConnectedDeviceBlock.query({
+      token: this.#token(),
+      device: {
+        DeviceName: device.DeviceName,
+        MacAddress: device.MacAddress
+      }
+    }));
+  }
+
+  setDeviceUnblock(device: Device) {
+    return defer(() => this.#trpcProxyClient.deviceAccess.setDeviceUnblock.query({
+      token: this.#token(),
+      device: {
+        DeviceName: device.DeviceName,
+        MacAddress: device.MacAddress
+      }
+    }));
+  }
+
 }
