@@ -3,6 +3,7 @@ import {
   connectInternet,
   connectionState,
   currentProfile,
+  deviceAccess,
   disconnectInternet,
   heartBeat,
   login,
@@ -26,7 +27,8 @@ export const appRouter = router({
   simStatus,
   sms,
   systemStatus,
-  ussd
+  ussd,
+  deviceAccess
 });
 
 export type AppRouterType = typeof appRouter;
