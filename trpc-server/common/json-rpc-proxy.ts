@@ -33,6 +33,9 @@ export const jsonRpcProxy = (body: JSONRPCRequest, token?: string): PromiseLike<
         } else if ( payload.id !== undefined ) {
           return Promise.reject(new Error(response.statusText));
         }
+      })
+      .catch((err) => {
+        console.log(`[FetchError]: request to http://192.168.1.1/jrd/webapi failed, reason: ${ err.erroredSysCall } ${ err.code }`);
       });
   });
 
