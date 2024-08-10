@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  httpBatchLink: 'http://localhost/api/trpc',
-  wsClient: 'ws://localhost/api/trpc',
+  httpBatchLink: 'http://trpc.routeradmin.local/trpc',
+  wsClient: 'ws://trpc.routeradmin.local/trpc',
   THEME_KEY: 'RHA-THEME'
 };
