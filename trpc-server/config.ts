@@ -15,3 +15,5 @@ const envsSchema = z.object({
 });
 
 export const envs = envsSchema.parse(process.env);
+
+export type ServerOptions = typeof envs;
