@@ -2,19 +2,20 @@ import { JSONRPCClient, JSONRPCRequest } from 'json-rpc-2.0';
 import { JSONRPCResponse } from 'json-rpc-2.0/dist/models';
 import http from 'node:http';
 import fetch from 'node-fetch';
+import { envs } from '@trpc-server/config';
 
 export const jsonRpcProxy = (body: JSONRPCRequest, token?: string): PromiseLike<JSONRPCResponse> => {
   const headers: any = {
     'Content-Type': 'application/json, text/plain, */*',
-    '_tclrequestverificationkey': 'KSDHSDFOGQ5WERYTUIQWERTYUISDFG1HJZXCVCXBN2GDSMNDHKVKFsVBNf',
-    'Referer': 'http://192.168.1.1/index.html',
+    [ envs.REQUEST_VERIFICATION_KEY_HEADER ]: envs.REQUEST_VERIFICATION_KEY,
+    'Referer': envs.WEB_REFER,
     'Connection': 'keep-alive'
   };
   if ( token ) {
-    headers[ '_tclrequestverificationtoken' ] = token;
+    headers[ envs.REQUEST_VERIFICATION_TOKEN_HEADER ] = token;
   }
   const RPCClient = new JSONRPCClient((payload) => {
-    fetch('http://192.168.1.1/jrd/webapi', {
+    fetch(envs.WEB_API, {
       method: 'POST',
       headers,
       body: JSON.stringify(payload),
@@ -35,7 +36,7 @@ export const jsonRpcProxy = (body: JSONRPCRequest, token?: string): PromiseLike<
         }
       })
       .catch((err) => {
-        console.log(`[FetchError]: request to http://192.168.1.1/jrd/webapi failed, reason: ${ err.erroredSysCall } ${ err.code }`);
+        console.log(`[FetchError]: request to ${ envs.WEB_API } failed, reason: ${ err.erroredSysCall } ${ err.code }`);
       });
   });
 
