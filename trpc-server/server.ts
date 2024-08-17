@@ -5,7 +5,7 @@ import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify';
 import { appRouter } from '@trpc-server/router';
 import { ServerOptions } from '@trpc-server/config';
 
-export function createServer({ PORT, PREFIX, ENVIRONMENT  }: ServerOptions) {
+export function createServer({ PORT, PREFIX, ENVIRONMENT }: ServerOptions) {
   const isDev = ENVIRONMENT === 'DEVELOPMENT';
   const server = fastify({ logger: isDev });
 

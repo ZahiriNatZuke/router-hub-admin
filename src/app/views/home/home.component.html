@@ -19,7 +19,13 @@
     </div>
     <div class="router-info-row">
         <span class="router-info-label">Network Type:</span>
-        <span class="router-info-value">{{ networkType() }}</span>
+        <div class="connection-action">
+            <span class="router-info-value mr-3">{{ networkType() }}</span>
+            <button mat-icon-button class="change-network-btn" (click)="openChangeNetworkDialog()"
+                    [disabled]="restarting()">
+                <lucide-icon [name]="bolt()"></lucide-icon>
+            </button>
+        </div>
     </div>
     <div class="router-info-row">
         <span class="router-info-label">Profile Name:</span>

@@ -5,7 +5,7 @@
     @apply grid-cols-subgrid col-span-2 grid gap-x-2 text-azure-800 dark:text-white;
 
     .router-info-label {
-      @apply text-lg font-bold justify-self-end;
+      @apply text-lg font-bold justify-self-end self-center;
     }
 
     .router-info-value {
@@ -13,10 +13,26 @@
     }
 
     .connection-action {
-      @apply w-full flex justify-start relative;
+      @apply w-full flex justify-start relative items-center;
 
       .connection-action-btn {
-        @apply -top-2 ml-6;
+        @apply ml-6;
+      }
+
+      .change-network-btn {
+        @apply -top-0.5;
+      }
+
+      ::ng-deep {
+        .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__notch {
+          border-left-width: 0;
+          border-right-width: 0;
+        }
+
+        .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+          display: none;
+          visibility: hidden;
+        }
       }
 
     }
