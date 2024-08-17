@@ -168,7 +168,7 @@ export class HomeComponent extends BaseComponent {
   ],
   styles: `
     .change-network-form {
-      @apply w-[350px] gap-y-5 p-5;
+      @apply w-[350px] gap-y-5 p-5 flex justify-center;
 
       ::ng-deep {
         .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__notch {
