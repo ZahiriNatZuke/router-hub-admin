@@ -12,7 +12,8 @@ import {
   simStatus,
   sms,
   systemStatus,
-  ussd
+  ussd,
+  wlan
 } from '@trpc-server/router/routes';
 
 export const appRouter = router({
@@ -28,7 +29,8 @@ export const appRouter = router({
   sms,
   systemStatus,
   ussd,
-  deviceAccess
+  deviceAccess,
+  wlan
 });
 
 export type AppRouterType = typeof appRouter;

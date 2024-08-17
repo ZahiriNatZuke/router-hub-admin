@@ -11,3 +11,4 @@ export * from './sms';
 export * from './system-status';
 export * from './ussd';
 export * from './device-access';
+export * from './wlan';

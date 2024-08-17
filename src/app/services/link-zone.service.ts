@@ -99,22 +99,6 @@ export class LinkZoneService {
     return defer(() => this.#trpcProxyClient.connectionState.query({ token: this.#token() }));
   }
 
-  setNetwork(networkMode: NetworkMode) {
-    return this.getConnectionState()
-      .pipe(
-        switchMap((res: JSONRPCResponse) => {
-          if ( res.result.ConnectionStatus === 2 ) { // if it is connected
-            return this.disconnectInternet()
-              .pipe(
-                switchMap(() => this.setNetworkSettings(networkMode))
-              );
-          }
-          return this.setNetworkSettings(networkMode);
-        })
-      );
-
-  }
-
   sendUssd(ussdCode: string, UssdType: number = 1) {
     return defer(() => this.#trpcProxyClient.ussd.send.query({
       token: this.#token(),
@@ -143,10 +127,6 @@ export class LinkZoneService {
     return defer(() => this.#trpcProxyClient.sms.storageState.query({ token: this.#token() }));
   }
 
-  getSmsContentList(Page: number, ContactId: number) {
-    return defer(() => this.#trpcProxyClient.sms.contentList.query({ token: this.#token(), Page, ContactId }));
-  }
-
   deleteSms(SMSId: number, ContactId: number) {
     return defer(() => this.#trpcProxyClient.sms.delete.query({ token: this.#token(), SMSId, ContactId }));
   }
@@ -155,12 +135,8 @@ export class LinkZoneService {
     return defer(() => this.#trpcProxyClient.sms.result.query({ token: this.#token() }));
   }
 
-  getSendSms(SMSContent: string, PhoneNumber: string) {
-    return defer(() => this.#trpcProxyClient.sms.send.query({ token: this.#token(), SMSContent, PhoneNumber }));
-  }
-
-  sendSms(content: string, phoneNumber: string) {
-    return this.getSendSms(content, phoneNumber)
+  sendSms(SMSContent: string, PhoneNumber: string) {
+    return defer(() => this.#trpcProxyClient.sms.send.query({ token: this.#token(), SMSContent, PhoneNumber }))
       .pipe(
         delay(5000),
         switchMap(() => this.getSmsResult())
@@ -215,6 +191,14 @@ export class LinkZoneService {
         MacAddress: device.MacAddress
       }
     }));
+  }
+
+  getWlanSettings() {
+    return defer(() => this.#trpcProxyClient.wlan.getWlanSettings.query({ token: this.#token() }));
+  }
+
+  setWlanSettings(params: any) {
+    return defer(() => this.#trpcProxyClient.wlan.setWlanSettings.query({ token: this.#token(), params }));
   }
 
 }

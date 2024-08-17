@@ -35,6 +35,10 @@ export const routes: Routes = [
       {
         path: 'device-access',
         loadComponent: () => import('./views/device-access').then(c => c.DeviceAccessComponent)
+      },
+      {
+        path: 'settings',
+        loadComponent: () => import('./views/settings').then(c => c.SettingsComponent)
       }
     ],
     canActivate: [ loginTokenGuard ]

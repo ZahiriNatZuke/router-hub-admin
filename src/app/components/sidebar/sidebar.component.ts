@@ -19,7 +19,8 @@ export class SidebarComponent {
     { label: 'Home', route: '/admin/home' },
     { label: 'SMS List', route: '/admin/sms-list' },
     { label: 'USSD Codes', route: '/admin/ussd-codes' },
-    { label: 'Device Access', route: '/admin/device-access' }
+    { label: 'Device Access', route: '/admin/device-access' },
+    { label: 'Settings', route: '/admin/settings' }
   ]).asReadonly();
 
 }
