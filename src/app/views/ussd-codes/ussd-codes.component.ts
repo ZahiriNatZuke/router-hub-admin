@@ -2,7 +2,14 @@ import { Component, inject, SecurityContext, signal } from '@angular/core';
 import { USSD_CODES, UssdCode } from '@rha/common';
 import { CurrencyPipe } from '@angular/common';
 import { BaseComponent } from '@rha/common/classes';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogTitle } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialog,
+  MatDialogActions,
+  MatDialogClose,
+  MatDialogContent,
+  MatDialogTitle
+} from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { filter, interval, Subject, switchMap, takeUntil } from 'rxjs';
 import { MatRipple } from '@angular/material/core';
@@ -55,6 +62,7 @@ export class UssdCodesComponent extends BaseComponent {
       if ( res.result?.UssdContent.trim().length > 0 ) {
         this.#clearGetUSSDResult$.next(true);
         this.processingUssdCode.set('');
+        this.linkZone.setUssdEnd().subscribe();
         this.#bottomSheet.open(
           UssdContentResultDialog,
           {
