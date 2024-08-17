@@ -41,9 +41,15 @@ export class SettingsComponent extends BaseComponent {
   hide = signal(true);
   inputType = computed(() => this.hide() ? 'password' : 'text');
   suffixIcon = computed(() => this.hide() ? EyeOff : Eye);
+
   wlanFormGroup = this.#fb.nonNullable.group({
     Ssid: this.#fb.nonNullable.control('', Validators.required),
     WpaKey: this.#fb.nonNullable.control('', Validators.required),
+  });
+
+  changePasswordGroup = this.#fb.nonNullable.group({
+    CurrPassword: this.#fb.nonNullable.control('', [ Validators.required, Validators.minLength(8) ]),
+    NewPassword: this.#fb.nonNullable.control('', [ Validators.required, Validators.minLength(8) ]),
   });
 
   constructor() {
@@ -63,7 +69,7 @@ export class SettingsComponent extends BaseComponent {
       });
   }
 
-  clickEvent(event: MouseEvent) {
+  toggleHide(event: MouseEvent) {
     event.stopPropagation();
     this.hide.set(!this.hide());
   }
@@ -117,11 +123,26 @@ export class SettingsComponent extends BaseComponent {
         }
       })
         .pipe(takeUntilDestroyed(this.destroyRef$))
-        .subscribe(() => {
-          this.linkZone.logout();
-          this.#router.navigate([ '/login' ]);
+        .subscribe((res) => {
+          if ( res.error === undefined ) {
+            this.linkZone.logout();
+            this.#router.navigate([ '/login' ]);
+          }
         });
     }
   }
 
+  applyChangePassword() {
+    if ( this.changePasswordGroup.valid ) {
+      const { CurrPassword, NewPassword } = this.changePasswordGroup.value;
+      this.linkZone.changePassword(CurrPassword!, NewPassword!)
+        .pipe(takeUntilDestroyed(this.destroyRef$))
+        .subscribe((res) => {
+          if ( res.error === undefined ) {
+            this.linkZone.logout();
+            this.#router.navigate([ '/login' ]);
+          }
+        });
+    }
+  }
 }

@@ -1,5 +1,6 @@
 import { router } from '@trpc-server/common/trpc';
 import {
+  changePassword,
   connectInternet,
   connectionState,
   currentProfile,
@@ -30,7 +31,8 @@ export const appRouter = router({
   systemStatus,
   ussd,
   deviceAccess,
-  wlan
+  wlan,
+  changePassword
 });
 
 export type AppRouterType = typeof appRouter;

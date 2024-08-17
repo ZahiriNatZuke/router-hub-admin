@@ -12,3 +12,4 @@ export * from './system-status';
 export * from './ussd';
 export * from './device-access';
 export * from './wlan';
+export * from './change-password';

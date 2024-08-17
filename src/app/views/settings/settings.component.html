@@ -10,7 +10,7 @@
                 <mat-form-field class="w-full">
                     <mat-label>Wi-Fi password</mat-label>
                     <input matInput formControlName="WpaKey" [type]="inputType()" autocomplete="current-password">
-                    <button mat-icon-button matSuffix (click)="clickEvent($event)" class="mr-2" type="button">
+                    <button mat-icon-button matSuffix (click)="toggleHide($event)" class="mr-2" type="button">
                         <i-lucide [name]="suffixIcon()"/>
                     </button>
                 </mat-form-field>
@@ -23,7 +23,25 @@
     <mat-tab>
         <ng-template mat-tab-label>Admin Password</ng-template>
         <ng-template matTabContent>
-
+            <form class="change-password-form" [formGroup]="changePasswordGroup" (ngSubmit)="applyChangePassword()">
+                <mat-form-field class="w-full">
+                    <mat-label>Current password</mat-label>
+                    <input matInput formControlName="CurrPassword" [type]="inputType()" autocomplete="current-password">
+                    <button mat-icon-button matSuffix (click)="toggleHide($event)" class="mr-2" type="button">
+                        <i-lucide [name]="suffixIcon()"/>
+                    </button>
+                </mat-form-field>
+                <mat-form-field class="w-full">
+                    <mat-label>New password</mat-label>
+                    <input matInput formControlName="NewPassword" [type]="inputType()" autocomplete="new-password">
+                    <button mat-icon-button matSuffix (click)="toggleHide($event)" class="mr-2" type="button">
+                        <i-lucide [name]="suffixIcon()"/>
+                    </button>
+                </mat-form-field>
+                <button mat-flat-button color="primary" type="submit" [disabled]="changePasswordGroup.invalid">
+                    Apply
+                </button>
+            </form>
         </ng-template>
     </mat-tab>
 </mat-tab-group>

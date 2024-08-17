@@ -54,7 +54,7 @@ export class LinkZoneService {
     return defer(() => this.#trpcProxyClient.heartBeat.query({ token: this.#token() }));
   }
 
-  login(pwd: string): Observable<JSONRPCResponse> {
+  login(pwd: string) {
     const UserName = this.#encrypt('admin');
     const Password = this.#encrypt(pwd);
     return defer(() => this.#trpcProxyClient.login.query({ UserName, Password }))
@@ -199,6 +199,17 @@ export class LinkZoneService {
 
   setWlanSettings(params: any) {
     return defer(() => this.#trpcProxyClient.wlan.setWlanSettings.query({ token: this.#token(), params }));
+  }
+
+  changePassword(CurrPassword: string, NewPassword: string) {
+    return defer(() => this.#trpcProxyClient.changePassword.query({
+      token: this.#token(),
+      login: {
+        UserName: this.#encrypt('admin'),
+        CurrPassword: this.#encrypt(CurrPassword),
+        NewPassword: this.#encrypt(NewPassword)
+      }
+    }))
   }
 
 }
