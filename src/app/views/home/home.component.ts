@@ -190,11 +190,7 @@ export class ChangeNetworkDialog {
   #matDialogRef = inject(MatDialogRef<ChangeNetworkDialog>);
   #fb = inject(FormBuilder);
   protected readonly networkMode = NetworkMode;
-  networkControl = this.#fb.nonNullable.control(this.network, Validators.required);
-
-  get network() {
-    return this.#data.network;
-  }
+  networkControl = this.#fb.nonNullable.control('', Validators.required);
 
   saveNetwork() {
     this.#matDialogRef.close(this.networkControl.value);

@@ -151,7 +151,7 @@ export class DeviceAccessComponent extends BaseComponent {
           <div class="change-device-name-form">
               <mat-form-field class="w-full">
                   <mat-label>Device Name</mat-label>
-                  <input matInput [formControl]="deviceNameControl" type="type">
+                  <input matInput [formControl]="deviceNameControl" type="text">
               </mat-form-field>
           </div>
       </mat-dialog-content>
@@ -177,13 +177,19 @@ export class DeviceAccessComponent extends BaseComponent {
   ],
   styles: `
     .change-device-name-form {
-      @apply w-[350px] gap-y-5 p-5;
+      @apply w-[350px] grid gap-y-5 p-5;
 
       ::ng-deep {
         .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__notch {
           border-left-width: 0;
           border-right-width: 0;
         }
+
+        .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+          display: none;
+          visibility: hidden;
+        }
+        
       }
     }
   `

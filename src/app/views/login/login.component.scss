@@ -10,13 +10,19 @@
   }
 
   .login-form {
-    @apply w-[350px] gap-y-5;
+    @apply w-[350px] grid gap-y-5;
 
     ::ng-deep {
       .mdc-text-field--outlined:not(.mdc-text-field--disabled) .mdc-notched-outline .mdc-notched-outline__notch {
         border-left-width: 0;
         border-right-width: 0;
       }
+
+      .mat-mdc-form-field-subscript-wrapper.mat-mdc-form-field-bottom-align {
+        display: none;
+        visibility: hidden;
+      }
+
     }
 
   }
